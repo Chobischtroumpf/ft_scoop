@@ -1,4 +1,7 @@
-./lib/libft/*.o
+lib/libft/*.o
+
 scop
-./bin
-./lib/libft/libft.a
+
+bin
+
+lib/libft/libft.a
