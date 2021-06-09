@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"glfw3.h": "c",
+		"notify_keys.h": "c",
+		"stdio.h": "c",
+		"unistd.h": "c"
+	}
+}
