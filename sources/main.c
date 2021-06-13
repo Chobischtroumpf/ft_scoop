@@ -15,13 +15,16 @@ void set_window_framebuffer(GLFWwindow *window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-int	init_glfw(scop_t *context)
+int	init_context(scop_t *context, char *obj)
 {
 	if (!glfwInit())
 		return (0);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	context->primary = glfwGetPrimaryMonitor();
 	context->video_mode = glfwGetVideoMode(context->primary);
+	context->vertices = NULL;
+	context->amount_vertices = 0;
+	context->obj = obj;
 	return (1); 
 }
 
@@ -29,15 +32,24 @@ int main(int argc, char **argv)
 {
 	scop_t *context;
 	vertices_t *vertices;
-	(void)argv;
 
 	context = ft_get_context();
 	if (argc == 2)
 	{
-		if (!init_glfw(context))
+		if (!init_context(context, argv[1]))
 			return (0);
-		parse_file(context);
-		printf("monitor width = %d\n monitor height = %d\n", context->video_mode->width, context->video_mode->height); //to remove
+		if (parse_file(context) < 0)
+			return (-1);
+		context->vertices = rewind_vertices(context->vertices);
+		vertices = context->vertices;
+		while (vertices)
+		{
+			printf("x : %f, y : %f, z : %f\n", vertices->coordinates[0], vertices->coordinates[1], vertices->coordinates[2]);
+			vertices = vertices->next;
+			 glGenBuffers(1, &vertices->VBO);
+			// vertices = vertices->next;
+		}
+		context->vertices = rewind_vertices(context->vertices);
 		context->window = glfwCreateWindow(context->video_mode->width,
 			context->video_mode->height, "Scop", NULL, NULL);
 		if (!context->window)
@@ -54,12 +66,7 @@ int main(int argc, char **argv)
 			// /* Render here */
 			glClearColor(0.2f, 0.3f, 0.01f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			vertices = context->vertices;
-			while (vertices)
-			{
-				glGenBuffers(1, &vertices->VBO);
-				vertices = vertices->next;
-			}
+
 			// /* Swap front and back buffers */
 			glfwPollEvents();
 			glfwSwapBuffers(context->window);

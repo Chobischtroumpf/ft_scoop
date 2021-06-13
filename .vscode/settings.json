@@ -3,6 +3,14 @@
 		"glfw3.h": "c",
 		"notify_keys.h": "c",
 		"stdio.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"libft.h": "c",
+		"errno.h": "c",
+		"stdlib.h": "c",
+		"scop.h": "c",
+		"__locale": "c",
+		"__string": "c",
+		"string": "c",
+		"string_view": "c"
 	}
 }

@@ -12,14 +12,14 @@
 
 #include "libft.h"
 
-int ft_haschr(const char *s, int c)
+int ft_haschr(const char *str, int c)
 {
 	int i;
 
 	i = 0;
-	while (s[i])
+	while (str[i])
 	{
-		if (s[i] == c)
+		if (str[i] == c)
 			return (1);
 		i++;
 	}

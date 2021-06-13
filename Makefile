@@ -33,7 +33,7 @@ OBJDIR	= bin/
 CFLAGS	+= -I $(INCDIR)
 
 # Linking stage flags
-LDFLAGS = -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+LDFLAGS = -L lib/libft -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #

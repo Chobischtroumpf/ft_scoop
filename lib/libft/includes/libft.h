@@ -55,12 +55,56 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_numlen(int n, int minus);
 char				**ft_split(char const *s, char c);
+
+/*!
+** @brief this function removes all the chars in set from the front and back of
+** s1
+** @param[in] s1 the first string
+** @param[in] set the set of characters to remove from s1
+** @return returns the string minus all the characters in set at the front or
+** back of the string, or `NULL` in case of an error
+*/
 char				*ft_strtrim(char const *s1, char const *set);
+
+/*!
+** @brief this function joins two strings together
+** @param[in] s1 the first string
+** @param[in] s2 the second string
+** @return returns the string made of s1 and s2, or `NULL` in case of an error
+*/
 char				*ft_strjoin(char const *s1, char const *s2);
+
+/*!
+** @brief this function joins two strings together up to r_size of the second string
+** @param[in] s1 the first string
+** @param[in] s2 the second string
+** @param[in] r_size size of the second string to copy
+** @return returns the string made of s1 and s2, or `NULL` in case of an error
+*/
 char				*ft_strnjoin(char const *s1, char const *s2, 
 															ssize_t r_size);
-int					ft_haschr(const char *s, int c);
+
+/*!
+** @brief this function finds a character in a string
+** @param[in] str the string we're going through
+** @param[in] c the character we're trying to find
+** @return returns 1 if it finds c or 0 if it reaches the end of the string
+*/
+int					ft_haschr(const char *str, int c);
+
+/*!
+** @brief this function creates a string initialized with bzero
+** @param[in] size the size of the new string
+** @return returns a pointer to the created string or `NULL` in case of an error
+*/
 char				*ft_strnew(size_t size);
+
+/*!
+** @brief this function checks if last is at the end of str
+** @param[in] str the string you want to check
+** @param[in] last the element you want to find
+** @return returns 1 if last is at the end of str, 0 otherwise
+*/
 int					ft_strlast(char const *str, char const *last);
 
 void				ft_putchar(char c);
