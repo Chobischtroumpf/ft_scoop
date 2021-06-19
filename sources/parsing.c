@@ -18,7 +18,7 @@
 // 		new->previous = context->vertices;
 // 	}
 // 	context->vertices = new;
-// 	context->amount_vertices++;
+// 	context->amount_coordinates++;
 // 	return (1);
 // }
 
@@ -30,11 +30,11 @@ int	add_vertice(char **vertices_info)
 
 	while (vertices_info[size+1])
 		size++;
-	if (!(context->vertices = realloc(context->vertices, sizeof(float*) * (context->amount_vertices + size))))
+	if (!(context->vertices = realloc(context->vertices, sizeof(float*) * (context->amount_coordinates + size))))
 		return (-1);
-	context->amount_vertices += size;
+	context->amount_coordinates += size;
 	while (++i < size)
-		context->vertices[i + context->amount_vertices] = atof(vertices_info[i+1]);
+		context->vertices[i + context->amount_coordinates] = atof(vertices_info[i+1]);
 	return (0);
 }
 
@@ -103,5 +103,6 @@ int	parse_file(scop_t *context)
 			free(line);
 		}
 	}
+	normalizing_coordinates(context);
 	return (1);
 }

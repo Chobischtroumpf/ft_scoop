@@ -44,6 +44,7 @@ SRCS = \
 	./sources/main.c \
 	./sources/utils.c \
 	./sources/parsing.c \
+	./sources/buffers_creation.c\
 
 HEADERS = \
 	./includes/scop.h\

@@ -2,7 +2,6 @@
 # define SCOP_H
 
 # include <openGL/gl3.h>
-# include <openGL/gl3ext.h>
 # include <GLFW/glfw3.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -32,20 +31,20 @@ typedef struct scop_s
 	const GLFWvidmode	*video_mode;
 	GLuint				VBO;
 	GLuint				EBO;
+	GLuint				VAO;
 	float				*vertices;
 	faces_t				*faces;
-	int					amount_vertices;
+	int					amount_coordinates;
 	int					amount_faces;
 	char				*obj;
-	const GLchar		*vertex_shader_source;
-	GLuint				vertex_shader;
-	const GLchar		*fragment_shader_source;
-	GLuint				fragment_shader;
 	int					shader_program;
 	
 }	scop_t;
 
 scop_t		*ft_get_context(void);
 int			parse_file(scop_t *context);
+void		create_buffers(scop_t *context);
+void		normalizing_coordinates(scop_t *context);
+int			compile_shader_progs(scop_t	*context);
 
 #endif

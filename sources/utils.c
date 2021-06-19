@@ -7,32 +7,22 @@ scop_t *ft_get_context(void)
 	return (&statique);
 }
 
-// vertices_t	*rewind_vertices(vertices_t *vertices)
-// {
-// 	while(vertices && vertices->previous)
-// 		vertices = vertices->previous;
-// 	return (vertices);
-// }
+void normalizing_coordinates(scop_t *context)
+{
+	int	max = 0;
+	int		i = -1;
 
-// vertices_t	*back_vertices(vertices_t *vertices)
-// {
-// 	while(vertices && vertices->next)
-// 		vertices = vertices->next;
-// 	return (vertices);
-// }
-
-// vertices_t *get_vertice(int pos)
-// {
-// 	int i = 0;
-// 	vertices_t *vertices;
-
-// 	vertices = rewind_vertices(ft_get_context()->vertices);
-// 	if (pos > ft_get_context()->amount_vertices);
-// 	return (NULL);
-// 	while (vertices && vertices->next && i++ < pos)
-// 		vertices = vertices->next;
-// 	if (i == pos)
-// 		return (vertices);
-// 	else
-// 		return (NULL);
-// }
+	while (++i < context->amount_coordinates)
+		if ((int)context->vertices[i] > max)
+			max = context->vertices[i];
+	if (max >= 1)
+	{
+		max += 1;
+		i = 0;
+		while (i < context->amount_coordinates)
+		{
+			context->vertices[i] /= max;
+			i++;
+		}
+	}
+}
