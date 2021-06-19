@@ -1,46 +1,66 @@
 #include "scop.h"
 
-int push_back_vertice(char **vertice_info)
+// int push_back_vertice(char **vertice_info)
+// {
+// 	scop_t *context = ft_get_context();
+// 	vertices_t	*new;
+// 	int i = -1;
+
+// 	if (!(new = (vertices_t*)malloc(sizeof(*new))))
+// 		return (-1);
+// 	while (++i < 3)
+// 		new->coordinates[i] = atof(vertice_info[i+1]);
+// 	new->next = NULL;
+// 	new->previous = NULL;
+// 	if (context->vertices)
+// 	{
+// 		context->vertices->next = new;
+// 		new->previous = context->vertices;
+// 	}
+// 	context->vertices = new;
+// 	context->amount_vertices++;
+// 	return (1);
+// }
+
+int	add_vertice(char **vertices_info)
 {
 	scop_t *context = ft_get_context();
-	vertices_t	*new;
 	int i = -1;
+	int size = 0;
 
-	if (!(new = (vertices_t*)malloc(sizeof(*new))))
+	while (vertices_info[size+1])
+		size++;
+	if (!(context->vertices = realloc(context->vertices, sizeof(float*) * (context->amount_vertices + size))))
 		return (-1);
-	while (++i < 3)
-		new->coordinates[i] = atof(vertice_info[i+1]);
-	new->next = NULL;
-	new->previous = NULL;
-	if (context->vertices)
-	{
-		context->vertices->next = new;
-		new->previous = context->vertices;
-	}
-	context->vertices = new;
-	context->amount_vertices++;
-	return (1);
+	context->amount_vertices += size;
+	while (++i < size)
+		context->vertices[i + context->amount_vertices] = atof(vertices_info[i+1]);
+	return (0);
 }
 
-push_back_faces(char **face_info)
+int	push_back_faces(char **face_info)
 {
-	scop_t		*context = ft_get_context();
-	faces_t		*new;
-	vertices_t	*vertice;
-	int i = 0;
+	int		i = 0;
+	int		size = 0;
+	faces_t	*new;
+	scop_t	*context = ft_get_context();
 
+	while (face_info[size+1])
+		size++;
 	if (!(new = (faces_t *)malloc(sizeof(*new))))
 		return (-1);
-	new->length = 0;
-	
+	new->length = size;
+	if (!(new->indexes = malloc(sizeof(int) * size)))
+		return (-1);
 	while (face_info[++i])
+		new->indexes[i-1] = atoi(face_info[i]);
+	if (context->faces)
 	{
-		vertice = get_vertice(face_info[i]);
-		new->coordinates = realloc(new->coordinates, sizeof(float*) * new->length + 3);
-		new->coordinates[new->length++] = vertice->coordinates[0];
-		new->coordinates[new->length++] = vertice->coordinates[1];
-		new->coordinates[new->length++] = vertice->coordinates[2];
+		context->faces->next = new;
+		new->previous = context->faces;
 	}
+	context->faces = new;
+	return (0);
 }
 
 int	parse_file(scop_t *context)
@@ -66,9 +86,13 @@ int	parse_file(scop_t *context)
 		{
 			tab_info = ft_split(line, ' ');
 			if (!ft_strcmp(tab_info[0], "v"))
-				push_back_vertice(tab_info);
+			{
+					if (add_vertice(tab_info) < 0)
+						return (-1);
+			}
 			else if (!ft_strcmp(tab_info[0], "f"))
-				push_back_faces(tab_info);
+				if (push_back_faces(tab_info) < 0)
+					return (-1);
 		// else if ((ft_strcmp(tab_info[0], "mtllib")))
 		// {
 
