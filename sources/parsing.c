@@ -32,9 +32,9 @@ int	add_vertice(char **vertices_info)
 		size++;
 	if (!(context->vertices = realloc(context->vertices, sizeof(float*) * (context->amount_coordinates + size))))
 		return (-1);
-	context->amount_coordinates += size;
 	while (++i < size)
 		context->vertices[i + context->amount_coordinates] = atof(vertices_info[i+1]);
+	context->amount_coordinates += size;
 	return (0);
 }
 

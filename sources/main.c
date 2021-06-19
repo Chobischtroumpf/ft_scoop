@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 		sleep(1);
 		int i = -1;
 		while(++i < context->amount_coordinates)
-			printf("coordinate %d : %f", i, context->vertices[i]);
+			printf("coordinate %d : %f\n", i, context->vertices[i]);
 		while (!glfwWindowShouldClose(context->window))
 		{
 			processInput(context->window);
