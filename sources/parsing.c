@@ -102,11 +102,7 @@ int	parse_file(scop_t *context)
 			free(line);
 		}
 	}
-	// int x = 0;
-	// while(x < context->amount_faces)
-	// 	printf("element: %d\n", context->faces[x++]);
-	// printf("x : %d\n", x);
-	center_object(context);
 	normalizing_coordinates(context);
+	center_object(context);
 	return (1);
 }

@@ -40,5 +40,4 @@ void	rotate_y(scop_t *context);
 void	update_buffers(scop_t *context);
 void	center_object(scop_t *context);
 
-
 #endif

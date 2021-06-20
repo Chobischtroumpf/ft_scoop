@@ -3,7 +3,6 @@
 scop_t *ft_get_context(void)
 {
 	static scop_t statique;
-	// printf("%p|%p|%p|%p|%p|%p\n", statique.primary, statique.)
 	return (&statique);
 }
 

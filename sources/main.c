@@ -68,8 +68,6 @@ int main(int argc, char **argv)
 		if (compile_shader_progs(context) < 0)
 			exit(-1);
 		create_buffers(context);
-		// printf("%d\n",context->amount_coordinates);
-		// printf("context->amount_faces : %d\n", context->amount_faces);
 		while (!glfwWindowShouldClose(context->window))
 		{
 			processInput(context->window);
