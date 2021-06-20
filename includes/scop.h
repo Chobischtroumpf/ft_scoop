@@ -7,22 +7,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+#include <math.h>
 # include "libft.h"
 
-#define X_AXIS 0
-#define Y_AXIS 1
-#define Z_AXIS 2
-
-
-typedef struct	faces_s
-{
-	int				*indexes;
-	int				length;
-	struct faces_s	*next;
-	struct faces_s	*previous;
-
-}		faces_t;
-
+#define ROUND_UP 0.01
+#define ROTATION_SPEED 0.017453292
 
 typedef struct scop_s
 {
@@ -33,18 +22,23 @@ typedef struct scop_s
 	GLuint				EBO;
 	GLuint				VAO;
 	float				*vertices;
-	faces_t				*faces;
-	int					amount_coordinates;
+	GLuint				*faces;
 	int					amount_faces;
+	int					amount_coordinates;
+	// float				center[3];
 	char				*obj;
 	int					shader_program;
 	
 }	scop_t;
 
-scop_t		*ft_get_context(void);
-int			parse_file(scop_t *context);
-void		create_buffers(scop_t *context);
-void		normalizing_coordinates(scop_t *context);
-int			compile_shader_progs(scop_t	*context);
+scop_t	*ft_get_context(void);
+int		parse_file(scop_t *context);
+void	create_buffers(scop_t *context);
+void	normalizing_coordinates(scop_t *context);
+int		compile_shader_progs(scop_t	*context);
+void	rotate_y(scop_t *context);
+void	update_buffers(scop_t *context);
+void	center_object(scop_t *context);
+
 
 #endif

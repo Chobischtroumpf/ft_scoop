@@ -26,7 +26,7 @@ int	compile_shader_progs(scop_t	*context)
 	const GLchar		*vertex_shader_source = "#version 330 core\nlayout (location = 0) in vec3 aPos;\n"
 		"void main()\n{\n	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n}\0";
 	const GLchar		*fragment_shader_source = "#version 330 core\nout vec4 FragColor;\n"
-		"void main()\n{\n	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n}\0";
+		"uniform vec4 ourColor;\nvoid main()\n{FragColor = ourColor;}\0";
 	GLuint				vertex_shader = creating_shader_obj(vertex_shader_source, GL_VERTEX_SHADER);
 	GLuint				fragment_shader = creating_shader_obj(fragment_shader_source, GL_FRAGMENT_SHADER);
 	
@@ -43,7 +43,7 @@ int	compile_shader_progs(scop_t	*context)
 		printf("Error: %s\n", infoLog);
 		return (-1);
 	}
-	glUseProgram(context->shader_program);
+	// glUseProgram(context->shader_program);
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);  
 	return (0);
@@ -53,11 +53,25 @@ void	create_buffers(scop_t	*context)
 {
 	glGenBuffers(1, &(context->VBO));
 	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
-	glBufferData(GL_ARRAY_BUFFER, (3 * sizeof(float) * context->amount_coordinates), context->vertices, GL_DYNAMIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->amount_coordinates, context->vertices, GL_DYNAMIC_DRAW);
+	glGenBuffers(1, &(context->EBO));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * context->amount_faces, context->faces, GL_STATIC_DRAW);
 	glGenVertexArrays(1, &(context->VAO));
 	glBindVertexArray(context->VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float*), (void*)0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
+
+void update_buffers(scop_t *context)
+{
+	glBindVertexArray(context->VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
+	rotate_y(context);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->amount_coordinates, context->vertices, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 }

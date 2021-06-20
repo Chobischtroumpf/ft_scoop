@@ -22,15 +22,15 @@
 // 	return (1);
 // }
 
-int	add_vertice(char **vertices_info)
+int	add_vertice(char **vertices_info, scop_t *context)
 {
-	scop_t *context = ft_get_context();
+	// scop_t *context = ft_get_context();
 	int i = -1;
 	int size = 0;
 
 	while (vertices_info[size+1])
 		size++;
-	if (!(context->vertices = realloc(context->vertices, sizeof(float*) * (context->amount_coordinates + size))))
+	if (!(context->vertices = realloc(context->vertices, sizeof(float) * (context->amount_coordinates + size))))
 		return (-1);
 	while (++i < size)
 		context->vertices[i + context->amount_coordinates] = atof(vertices_info[i+1]);
@@ -38,28 +38,29 @@ int	add_vertice(char **vertices_info)
 	return (0);
 }
 
-int	push_back_faces(char **face_info)
+int	add_faces(char **face_info, scop_t *context)
 {
-	int		i = 0;
-	int		size = 0;
-	faces_t	*new;
-	scop_t	*context = ft_get_context();
+	int i = -1;
+	int size = 0;
 
 	while (face_info[size+1])
 		size++;
-	if (!(new = (faces_t *)malloc(sizeof(*new))))
+	if (size == 4)
+		size = 6;
+	if (!(context->faces = realloc(context->faces, sizeof(GLuint) * (context->amount_faces + size))))
 		return (-1);
-	new->length = size;
-	if (!(new->indexes = malloc(sizeof(int) * size)))
-		return (-1);
-	while (face_info[++i])
-		new->indexes[i-1] = atoi(face_info[i]);
-	if (context->faces)
+	if (size != 6)
+		while (++i < size)
+			context->faces[i + context->amount_faces] = atoi(face_info[i+1]) -1;
+	else
 	{
-		context->faces->next = new;
-		new->previous = context->faces;
+		while (++i < 3)
+			context->faces[i + context->amount_faces] = atoi(face_info[i+1]) - 1;
+		context->faces[i++ + context->amount_faces] = atoi(face_info[1]) - 1;
+		context->faces[i++ + context->amount_faces] = atoi(face_info[3]) - 1;
+		context->faces[i + context->amount_faces] = atoi(face_info[4]) - 1;
 	}
-	context->faces = new;
+	context->amount_faces += size;
 	return (0);
 }
 
@@ -87,22 +88,25 @@ int	parse_file(scop_t *context)
 			tab_info = ft_split(line, ' ');
 			if (!ft_strcmp(tab_info[0], "v"))
 			{
-					if (add_vertice(tab_info) < 0)
+					if (add_vertice(tab_info, context) < 0)
 						return (-1);
 			}
 			else if (!ft_strcmp(tab_info[0], "f"))
-				if (push_back_faces(tab_info) < 0)
+			{
+				if (add_faces(tab_info, context) < 0)
 					return (-1);
-		// else if ((ft_strcmp(tab_info[0], "mtllib")))
-		// {
-
-		// }
+			}
 			for (i = 0; i < 4; i++)
 				free(tab_info[i]);
 			free(tab_info);
 			free(line);
 		}
 	}
+	// int x = 0;
+	// while(x < context->amount_faces)
+	// 	printf("element: %d\n", context->faces[x++]);
+	// printf("x : %d\n", x);
+	center_object(context);
 	normalizing_coordinates(context);
 	return (1);
 }

@@ -34,6 +34,17 @@ int	init_context(scop_t *context, char *obj)
 	return (1); 
 }
 
+void coloring(scop_t *context)
+{	
+	// float time_value = glfwGetTime();
+	// float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
+	// float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
+	// float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
+	int vertex_color_location = glGetUniformLocation(context->shader_program, "ourColor");
+	glUseProgram(context->shader_program);
+	glUniform4f(vertex_color_location, 1, 0.6, 1, 1.0f);
+}
+
 int main(int argc, char **argv)
 {
 	scop_t *context;
@@ -45,39 +56,40 @@ int main(int argc, char **argv)
 			return (0);
 		if (parse_file(context) < 0)
 			return (-1);
-		context->window = glfwCreateWindow(context->video_mode->width,
-			context->video_mode->height, "Scop", NULL, NULL);
+		context->window = glfwCreateWindow(1280, 1280, "Scop", NULL, NULL);
 		if (!context->window)
 		{
 			glfwTerminate();
 			return (-1);
 		}
-		glViewport(0, 0, context->video_mode->width, context->video_mode->height);
+		glViewport(0, 0, 1280, 1280);
 		glfwMakeContextCurrent(context->window);
 		glfwSetFramebufferSizeCallback(context->window, set_window_framebuffer);
 		if (compile_shader_progs(context) < 0)
 			exit(-1);
 		create_buffers(context);
-		sleep(1);
-		int i = -1;
-		while(++i < context->amount_coordinates)
-			printf("coordinate %d : %f\n", i, context->vertices[i]);
+		// printf("%d\n",context->amount_coordinates);
+		// printf("context->amount_faces : %d\n", context->amount_faces);
 		while (!glfwWindowShouldClose(context->window))
 		{
 			processInput(context->window);
 			// /* Render here */
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glClearColor(0.3, 0.3, 0.3, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glUseProgram(context->shader_program);
+			coloring(context);
+			update_buffers(context);
 			glBindVertexArray(context->VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-			// /* Swap front and back buffers */
+			glDrawElements(GL_TRIANGLES, context->amount_faces, GL_UNSIGNED_INT, 0);
+			/* Swap front and back buffers */
+
 			glfwPollEvents();
 			glfwSwapBuffers(context->window);
 
 		}
 		glDeleteVertexArrays(1, &(context->VAO));
 		glDeleteBuffers(1, &(context->VBO));
+		glDeleteBuffers(1, &(context->EBO));
 		glDeleteProgram(context->shader_program);
 		glfwTerminate();
 		return 0;
