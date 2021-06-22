@@ -62,14 +62,45 @@ void	center_object(scop_t *context)
 	while (++i < context->amount_coordinates)
 		context->vertices[i] -= center[i%3];
 }
-
+  
 void	rotate_y(scop_t *context)
 {
+	float rotation = context->rotation_speed * glfwGetTime() *  (3.14159265 / 180);
+	int transform = glGetUniformLocation(context->shader_program, "transform");
+	context->rotation_matrice[0] = cos(rotation);
+	context->rotation_matrice[2] = sin(rotation);
+	context->rotation_matrice[5] = 1;
+	context->rotation_matrice[8] = -sin(rotation);
+	context->rotation_matrice[10] = cos(rotation);
+	context->rotation_matrice[15] = 1;
+	glUniformMatrix4fv(transform, 1, GL_FALSE, context->rotation_matrice);
+}
+
+void reset_matrice(scop_t *context)
+{
 	int i = 0;
-	while (i < context->amount_coordinates)
+	while (i < 16)
 	{
-		context->vertices[i] = cos(ROTATION_SPEED) * context->vertices[i] + sin(ROTATION_SPEED) * context->vertices[i+2];
-		context->vertices[i+2] = -(sin(ROTATION_SPEED) * context->vertices[i]) + (cos(ROTATION_SPEED) * context->vertices[i+2]);
-		i += 3;
+		context->rotation_matrice[i] = 0;
+		i++;
 	}
 }
+
+	// float rotation = glfwGetTime() * (3.1415926535897 / 180);
+	// context->rotation_matrice[0][0] = cos(rotation);
+	// context->rotation_matrice[0][1] = 0;
+	// context->rotation_matrice[0][2] = sin(rotation);
+	// context->rotation_matrice[0][3] = 0;
+	// context->rotation_matrice[1][0] = 0;
+	// context->rotation_matrice[1][1] = 1;
+	// context->rotation_matrice[1][2] = 0;
+	// context->rotation_matrice[1][3] = 0;
+	// context->rotation_matrice[2][0] = -sin(rotation);
+	// context->rotation_matrice[2][1] = 0;
+	// context->rotation_matrice[2][2] = cos(rotation);
+	// context->rotation_matrice[2][3] = 0;
+	// context->rotation_matrice[3][0] = 0;
+	// context->rotation_matrice[3][1] = 0;
+	// context->rotation_matrice[3][2] = 0;
+	// context->rotation_matrice[3][3] = 1;
+

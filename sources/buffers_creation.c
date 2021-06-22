@@ -23,10 +23,11 @@ int	compile_shader_progs(scop_t	*context)
 {
 	int  success;
 	char infoLog[512];
-	const GLchar		*vertex_shader_source = "#version 330 core\nlayout (location = 0) in vec3 aPos;\n"
-		"void main()\n{\n	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n}\0";
-	const GLchar		*fragment_shader_source = "#version 330 core\nout vec4 FragColor;\n"
-		"uniform vec4 ourColor;\nvoid main()\n{FragColor = ourColor;}\0";
+	const GLchar		*vertex_shader_source = get_vertex_shader();
+	const GLchar		*fragment_shader_source = get_fragment_shader();
+	
+	if (!vertex_shader_source || !fragment_shader_source)
+		return(-1);
 	GLuint				vertex_shader = creating_shader_obj(vertex_shader_source, GL_VERTEX_SHADER);
 	GLuint				fragment_shader = creating_shader_obj(fragment_shader_source, GL_FRAGMENT_SHADER);
 	
@@ -63,6 +64,12 @@ void	create_buffers(scop_t	*context)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	context->rotation_matrice[0] = 1;
+	context->rotation_matrice[5] = 1;
+	context->rotation_matrice[10] = 1;
+	context->rotation_matrice[15] = 1;
+	glUniformMatrix4fv(glGetUniformLocation(context->shader_program, "transform"), 1, GL_FALSE, context->rotation_matrice);
+
 }
 
 void update_buffers(scop_t *context)

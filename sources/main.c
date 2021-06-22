@@ -1,11 +1,12 @@
 #include "scop.h"
 
-void processInput(GLFWwindow *window)
+void processInput(GLFWwindow *window, scop_t *context)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 20, 2560, 1440, 60);
+	(void) context;
 }
 
 void set_window_framebuffer(GLFWwindow *window, int width, int height)
@@ -31,18 +32,20 @@ int	init_context(scop_t *context, char *obj)
 	context->vertices = NULL;
 	context->amount_coordinates = 0;
 	context->obj = obj;
+	context->rotation_speed = ROTATION_SPEED;
+	reset_matrice(context);
 	return (1); 
 }
 
 void coloring(scop_t *context)
 {	
-	// float time_value = glfwGetTime();
-	// float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
-	// float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
-	// float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
+	float time_value = glfwGetTime();
+	float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
+	float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
+	float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
 	int vertex_color_location = glGetUniformLocation(context->shader_program, "ourColor");
 	glUseProgram(context->shader_program);
-	glUniform4f(vertex_color_location, 1, 0.6, 1, 1.0f);
+	glUniform4f(vertex_color_location, green_value, blue_value, red_value, 1.0f);
 }
 
 int main(int argc, char **argv)
@@ -68,9 +71,11 @@ int main(int argc, char **argv)
 		if (compile_shader_progs(context) < 0)
 			exit(-1);
 		create_buffers(context);
+		int i = 0;
+		glfwSetTime(1);
 		while (!glfwWindowShouldClose(context->window))
 		{
-			processInput(context->window);
+			processInput(context->window, context);
 			// /* Render here */
 			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glClearColor(0.3, 0.3, 0.3, 1.0f);
@@ -83,13 +88,16 @@ int main(int argc, char **argv)
 
 			glfwPollEvents();
 			glfwSwapBuffers(context->window);
-
+			if (i%60 == 0)
+				printf("%d | %f\n", i, glfwGetTime());
+			i++;
 		}
 		glDeleteVertexArrays(1, &(context->VAO));
 		glDeleteBuffers(1, &(context->VBO));
 		glDeleteBuffers(1, &(context->EBO));
 		glDeleteProgram(context->shader_program);
 		glfwTerminate();
+		exit(0);
 		return 0;
 	}
 	else

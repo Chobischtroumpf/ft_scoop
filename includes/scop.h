@@ -10,9 +10,15 @@
 #include <math.h>
 # include "libft.h"
 
-#define ROUND_UP 0.01
-#define ROTATION_SPEED 0.017453292
+// #define ROUND_UP 0.01
 
+#ifndef ROTATION_SPEED
+# define ROTATION_SPEED 25
+#endif
+
+#ifndef SHADERS_PATH
+# define SHADERS_PATH "/Users/alessandro/cursus42/cercle_externe/ft_scop/sources/shaders/"
+#endif
 typedef struct scop_s
 {
 	GLFWmonitor			*primary;
@@ -25,10 +31,10 @@ typedef struct scop_s
 	GLuint				*faces;
 	int					amount_faces;
 	int					amount_coordinates;
-	// float				center[3];
+	float				rotation_matrice[16];
 	char				*obj;
 	int					shader_program;
-	
+	float				rotation_speed;
 }	scop_t;
 
 scop_t	*ft_get_context(void);
@@ -39,5 +45,8 @@ int		compile_shader_progs(scop_t	*context);
 void	rotate_y(scop_t *context);
 void	update_buffers(scop_t *context);
 void	center_object(scop_t *context);
+void	reset_matrice(scop_t *context);
+char	*get_vertex_shader(void);
+char	*get_fragment_shader(void);
 
 #endif

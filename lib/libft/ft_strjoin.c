@@ -22,6 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 			return (NULL);
 		ft_strcpy(dest, s1);
 		ft_strcat(dest, s2);
+
 		return (dest);
 	}
 	else

@@ -17,7 +17,8 @@ NAME	= scop
 
 # Compiler and compiling flags
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -DGL_SILENCE_DEPRECATION=1
+CFLAGS	= -Wall -Werror -Wextra 
+CMACRO  = -DGL_SILENCE_DEPRECATION=1 
 
 # Debug, use with`make DEBUG=1`
 ifeq ($(DEBUG),1)
@@ -45,6 +46,7 @@ SRCS = \
 	./sources/utils.c \
 	./sources/parsing.c \
 	./sources/buffers_creation.c\
+	./sources/get_shaders.c\
 
 HEADERS = \
 	./includes/scop.h\
@@ -74,12 +76,12 @@ all : libft $(NAME)
 $(OBJDIR)%.o : %.c
 	@mkdir -p $(OBJDIR)
 	@printf "$(GR)+$(RC)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CMACRO) -c $< -o $@
 
 # Linking
 $(NAME)	: $(SRCS) $(HEADERS) $(OBJS)
 	@printf "\n$(GR)=== Compiled [$(CC) $(CFLAGS)] ===\n--- $(SRC)$(RC)\n"
-	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(CMACRO) $(OBJS) $(LDFLAGS) -o $(NAME)
 	@printf "$(YE)&&& Linked [$(CC) $(LDFLAGS)] &&&\n--- $(NAME)$(RC)\n"
 
 # Cleaning
