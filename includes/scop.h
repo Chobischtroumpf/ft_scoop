@@ -19,6 +19,7 @@
 #ifndef SHADERS_PATH
 # define SHADERS_PATH "/Users/alessandro/cursus42/cercle_externe/ft_scop/sources/shaders/"
 #endif
+#define PI 3.14159265
 typedef struct scop_s
 {
 	GLFWmonitor			*primary;
@@ -32,6 +33,7 @@ typedef struct scop_s
 	int					amount_faces;
 	int					amount_coordinates;
 	float				rotation_matrice[16];
+	float				color_matrice[16];
 	char				*obj;
 	int					shader_program;
 	float				rotation_speed;
@@ -40,7 +42,7 @@ typedef struct scop_s
 scop_t	*ft_get_context(void);
 int		parse_file(scop_t *context);
 void	create_buffers(scop_t *context);
-void	normalizing_coordinates(scop_t *context);
+int	normalizing_coordinates(scop_t *context);
 int		compile_shader_progs(scop_t	*context);
 void	rotate_y(scop_t *context);
 void	update_buffers(scop_t *context);
@@ -48,5 +50,6 @@ void	center_object(scop_t *context);
 void	reset_matrice(scop_t *context);
 char	*get_vertex_shader(void);
 char	*get_fragment_shader(void);
+void	get_center(float *center, int amount_coordinates, float *vertices);
 
 #endif

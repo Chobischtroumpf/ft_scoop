@@ -47,6 +47,7 @@ SRCS = \
 	./sources/parsing.c \
 	./sources/buffers_creation.c\
 	./sources/get_shaders.c\
+	./sources/matrice_manipulation.c
 
 HEADERS = \
 	./includes/scop.h\

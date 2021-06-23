@@ -2,11 +2,27 @@
 
 void processInput(GLFWwindow *window, scop_t *context)
 {
+	float time = 0;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 20, 2560, 1440, 60);
-	(void) context;
+	{
+		time = glfwGetTime();
+		context->rotation_speed = 1;
+	}
+	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+	{
+		if (time)
+			glfwSetTime(time);
+		context->rotation_speed = 0;
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	
 }
 
 void set_window_framebuffer(GLFWwindow *window, int width, int height)
@@ -32,21 +48,37 @@ int	init_context(scop_t *context, char *obj)
 	context->vertices = NULL;
 	context->amount_coordinates = 0;
 	context->obj = obj;
-	context->rotation_speed = ROTATION_SPEED;
+	context->rotation_speed = 0;
 	reset_matrice(context);
 	return (1); 
 }
 
-void coloring(scop_t *context)
-{	
-	float time_value = glfwGetTime();
-	float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
-	float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
-	float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
-	int vertex_color_location = glGetUniformLocation(context->shader_program, "ourColor");
-	glUseProgram(context->shader_program);
-	glUniform4f(vertex_color_location, green_value, blue_value, red_value, 1.0f);
-}
+// void coloring(scop_t *context)
+// {	
+// 	float time_value;
+// 	// float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
+// 	// float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
+// 	// float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
+// 	int i = 3;
+// 	while (i < context->amount_coordinates)
+// 	{
+// 		time_value = glfwGetTime() * 100 * (PI / 180);
+// 		context->vertices[i] = -sin(time_value);
+// 		i++;
+// 		time_value = glfwGetTime() * 100 * (PI / 180);
+// 		context->vertices[i] = cos(time_value);
+// 		i++;
+// 		time_value = glfwGetTime() * 100 * (PI / 180);
+// 		context->vertices[i] = sin(time_value);
+// 		i += 4;
+// 	}
+// 	// context->color_matrice[0] = cos(time_value * (PI/180));
+// 	// context->color_matrice[5] = sin(time_value * (PI/180));
+// 	// context->color_matrice[10] = tan(time_value * (PI/180));
+// 	// context->color_matrice[15] = sin(time_value * (PI/180))/cos(time_value * (PI/180));
+// 	// int coloration = glGetUniformLocation(context->shader_program, "coloration");
+// 	// glUniformMatrix4fv(coloration, 1, GL_FALSE, context->color_matrice);
+// }
 
 int main(int argc, char **argv)
 {
@@ -73,14 +105,17 @@ int main(int argc, char **argv)
 		create_buffers(context);
 		int i = 0;
 		glfwSetTime(1);
+		glEnable(GL_DEPTH_TEST);
+		// glDepthFunc(GL_LESS);
 		while (!glfwWindowShouldClose(context->window))
 		{
 			processInput(context->window, context);
 			// /* Render here */
 			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glClearColor(0.3, 0.3, 0.3, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			coloring(context);
+			glClearColor(1, 0, 1, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			// coloring(context);
+			glUseProgram(context->shader_program);
 			update_buffers(context);
 			glBindVertexArray(context->VAO);
 			glDrawElements(GL_TRIANGLES, context->amount_faces, GL_UNSIGNED_INT, 0);

@@ -22,19 +22,28 @@
 // 	return (1);
 // }
 
-int	add_vertice(char **vertices_info, scop_t *context)
+int	add_vertex(char **vertices_info, scop_t *context)
 {
 	// scop_t *context = ft_get_context();
-	int i = -1;
+	int i = 0;
 	int size = 0;
 
 	while (vertices_info[size+1])
 		size++;
-	if (!(context->vertices = realloc(context->vertices, sizeof(float) * (context->amount_coordinates + size))))
+	if (!(context->vertices = realloc(context->vertices, sizeof(float) * (context->amount_coordinates + 2 * size))))
 		return (-1);
-	while (++i < size)
+	while (i < size)
+	{
 		context->vertices[i + context->amount_coordinates] = atof(vertices_info[i+1]);
-	context->amount_coordinates += size;
+		i++;
+	}
+	int value = rand() % 10;
+	while (i < (size*2))
+	{
+		context->vertices[i + context->amount_coordinates] = 0.1f * value;
+		i++;
+	}
+	context->amount_coordinates += 6;
 	return (0);
 }
 
@@ -88,7 +97,7 @@ int	parse_file(scop_t *context)
 			tab_info = ft_split(line, ' ');
 			if (!ft_strcmp(tab_info[0], "v"))
 			{
-					if (add_vertice(tab_info, context) < 0)
+					if (add_vertex(tab_info, context) < 0)
 						return (-1);
 			}
 			else if (!ft_strcmp(tab_info[0], "f"))
@@ -102,7 +111,8 @@ int	parse_file(scop_t *context)
 			free(line);
 		}
 	}
+
+	// center_object(context);
 	normalizing_coordinates(context);
-	center_object(context);
 	return (1);
 }
