@@ -114,5 +114,7 @@ int	parse_file(scop_t *context)
 
 	// center_object(context);
 	normalizing_coordinates(context);
+	reset_matrice(context->center_matrice);
+	get_center(context->center_matrice, context->amount_coordinates, context->vertices);
 	return (1);
 }

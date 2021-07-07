@@ -34,6 +34,7 @@ typedef struct scop_s
 	int					amount_coordinates;
 	float				rotation_matrice[16];
 	float				color_matrice[16];
+	float				center_matrice[16];
 	char				*obj;
 	int					shader_program;
 	float				rotation_speed;
@@ -42,14 +43,15 @@ typedef struct scop_s
 scop_t	*ft_get_context(void);
 int		parse_file(scop_t *context);
 void	create_buffers(scop_t *context);
-int	normalizing_coordinates(scop_t *context);
+int		normalizing_coordinates(scop_t *context);
 int		compile_shader_progs(scop_t	*context);
 void	rotate_y(scop_t *context);
 void	update_buffers(scop_t *context);
 void	center_object(scop_t *context);
-void	reset_matrice(scop_t *context);
+void	reset_matrice(float *matrice);
 char	*get_vertex_shader(void);
 char	*get_fragment_shader(void);
 void	get_center(float *center, int amount_coordinates, float *vertices);
+void	invert_w(float *inverted_matrice ,float *matrice);
 
 #endif

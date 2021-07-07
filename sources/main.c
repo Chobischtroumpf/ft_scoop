@@ -49,36 +49,11 @@ int	init_context(scop_t *context, char *obj)
 	context->amount_coordinates = 0;
 	context->obj = obj;
 	context->rotation_speed = 0;
-	reset_matrice(context);
+	reset_matrice(context->rotation_matrice);
+	reset_matrice(context->color_matrice);
+	reset_matrice(context->center_matrice);
 	return (1); 
 }
-
-// void coloring(scop_t *context)
-// {	
-// 	float time_value;
-// 	// float green_value = fabs((sin(time_value) / 2.0f) + 0.5f);
-// 	// float blue_value = fabs((cos(time_value) / 2.0f) + 0.5f);
-// 	// float red_value = fabs((tan(time_value) / 2.0f) + 0.5f);
-// 	int i = 3;
-// 	while (i < context->amount_coordinates)
-// 	{
-// 		time_value = glfwGetTime() * 100 * (PI / 180);
-// 		context->vertices[i] = -sin(time_value);
-// 		i++;
-// 		time_value = glfwGetTime() * 100 * (PI / 180);
-// 		context->vertices[i] = cos(time_value);
-// 		i++;
-// 		time_value = glfwGetTime() * 100 * (PI / 180);
-// 		context->vertices[i] = sin(time_value);
-// 		i += 4;
-// 	}
-// 	// context->color_matrice[0] = cos(time_value * (PI/180));
-// 	// context->color_matrice[5] = sin(time_value * (PI/180));
-// 	// context->color_matrice[10] = tan(time_value * (PI/180));
-// 	// context->color_matrice[15] = sin(time_value * (PI/180))/cos(time_value * (PI/180));
-// 	// int coloration = glGetUniformLocation(context->shader_program, "coloration");
-// 	// glUniformMatrix4fv(coloration, 1, GL_FALSE, context->color_matrice);
-// }
 
 int main(int argc, char **argv)
 {
@@ -111,8 +86,7 @@ int main(int argc, char **argv)
 		{
 			processInput(context->window, context);
 			// /* Render here */
-			// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glClearColor(1, 0, 1, 1.0f);
+			glClearColor(0.1, 0.1, 0.1, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			// coloring(context);
 			glUseProgram(context->shader_program);
@@ -126,6 +100,7 @@ int main(int argc, char **argv)
 			if (i%60 == 0)
 				printf("%d | %f\n", i, glfwGetTime());
 			i++;
+			// sleep(5);
 		}
 		glDeleteVertexArrays(1, &(context->VAO));
 		glDeleteBuffers(1, &(context->VBO));

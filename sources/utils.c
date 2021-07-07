@@ -30,17 +30,6 @@ int normalizing_coordinates(scop_t *context)
 		return(0);
 }
 
-void	center_object(scop_t *context)
-{
-	float	center[3];
-	int	i = -1;
-	// printf("center x : %f y : %f z : %f\n", center[0], center[1], center[2]);
-	get_center(center, context->amount_coordinates, context->vertices);
-	while (++i < context->amount_coordinates)
-		if (i%6 < 3)
-			context->vertices[i] -= center[i%3];
-}
-
 void	get_center(float *center, int amount_coordinates, float *vertices)
 {
 	int		i = 0;
@@ -68,27 +57,14 @@ void	get_center(float *center, int amount_coordinates, float *vertices)
 			max_z = vertices[i];
 		i +=4;
 	}
-	center[0] = (min_x + max_x)/2;
-	center[1] = (min_y + max_y)/2;
-	center[2] = (min_z + max_z)/2;
-	// return (center);
+	center[3] = (min_x + max_x)/2;
+	center[7] = (min_y + max_y)/2;
+	center[11] = (min_z + max_z)/2;
 }
 
-	// float rotation = glfwGetTime() * (3.1415926535897 / 180);
-	// context->rotation_matrice[0][0] = cos(rotation);
-	// context->rotation_matrice[0][1] = 0;
-	// context->rotation_matrice[0][2] = sin(rotation);
-	// context->rotation_matrice[0][3] = 0;
-	// context->rotation_matrice[1][0] = 0;
-	// context->rotation_matrice[1][1] = 1;
-	// context->rotation_matrice[1][2] = 0;
-	// context->rotation_matrice[1][3] = 0;
-	// context->rotation_matrice[2][0] = -sin(rotation);
-	// context->rotation_matrice[2][1] = 0;
-	// context->rotation_matrice[2][2] = cos(rotation);
-	// context->rotation_matrice[2][3] = 0;
-	// context->rotation_matrice[3][0] = 0;
-	// context->rotation_matrice[3][1] = 0;
-	// context->rotation_matrice[3][2] = 0;
-	// context->rotation_matrice[3][3] = 1;
-
+void	invert_w(float *inverted_matrice, float *matrice)
+{
+	inverted_matrice[3] = -matrice[3];
+	inverted_matrice[7] = -matrice[7];
+	inverted_matrice[11] = -matrice[11];
+}
