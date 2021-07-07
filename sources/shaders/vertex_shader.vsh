@@ -11,6 +11,6 @@ uniform mat4 coloration;
 
 void main()
 {
-	gl_Position = vec4(aPos, 1.0) * trl_to_center * transform /* * trl_from_center*/;
+	gl_Position = ((trl_to_center * transform) * trl_from_center)* vec4(aPos, 1.0);
 	ourColor = /*coloration * */ vec4(aColor, 1.0);
 }

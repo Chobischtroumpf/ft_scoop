@@ -15,6 +15,13 @@ void	rotate_y(scop_t *context)
 	context->rotation_matrice[2] = sin(rotation);
 	context->rotation_matrice[8] = -sin(rotation);
 	context->rotation_matrice[10] = cos(rotation);
+	printf("\n\n");
+	int i = -1;
+	while (++i < 16)
+		printf("inverted_matrice[%d] : %f\n", i, context->center_matrice[i]);
+	int j = -1;
+	while (++j < 16)
+		printf("inverted_matrice[%d] : %f\n", j, inverted_center[j]);
 	glUniformMatrix4fv(transform, 1, GL_FALSE, context->rotation_matrice);
 	glUniformMatrix4fv(trl_from_center, 1, GL_FALSE, context->center_matrice);
 	glUniformMatrix4fv(trl_to_center, 1, GL_FALSE, inverted_center);
