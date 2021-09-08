@@ -3,18 +3,13 @@
 void	rotate_y(scop_t *context)
 {
 	static float	rotation;
-	float	inverted_center[16];
-	reset_matrice(inverted_center);
-	invert_w(inverted_center, context->center_matrice);
+	t_mat4	inverted_center = m4_init;
 	int transform = glGetUniformLocation(context->shader_program, "transform");
 	int	trl_to_center = glGetUniformLocation(context->shader_program, "trl_to_center");
 	int	trl_from_center = glGetUniformLocation(context->shader_program, "trl_from_center");
 	if (!context->rotation_speed)
 		rotation = ROTATION_SPEED * glfwGetTime() *  (PI / 180);
-	context->rotation_matrice[0] = cos(rotation);
-	context->rotation_matrice[2] = sin(rotation);
-	context->rotation_matrice[8] = -sin(rotation);
-	context->rotation_matrice[10] = cos(rotation);
+	
 	printf("\n\n");
 	int i = -1;
 	while (++i < 16)

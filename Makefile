@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
+#    By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2021/02/20 19:02:07 by lorenuar         ###   ########.fr        #
+#    Updated: 2021/09/08 14:15:00 by adorigo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,14 @@ endif
 
 # Folder name
 SRCDIR	= sources/
-INCDIR	= includes/ -I lib/libft/includes
+INCDIR	= includes/ -I lib/libft/includes -I ~/.brew/include/
 OBJDIR	= bin/
 
 # Add include folder
 CFLAGS	+= -I $(INCDIR)
 
 # Linking stage flags
-LDFLAGS = -L lib/libft -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+LDFLAGS = -L lib/libft -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #
@@ -86,30 +86,27 @@ $(NAME)	: $(SRCS) $(HEADERS) $(OBJS)
 	@printf "$(YE)&&& Linked [$(CC) $(LDFLAGS)] &&&\n--- $(NAME)$(RC)\n"
 
 # Cleaning
-clean : libft-clean
-	@printf "$(RE)--- Removing $(OBJDIR)$(RC)"
-	@rm -rf $(OBJDIR)
+clean :
 	@make clean -C lib/libft
+	@printf "$(RE)--- Removing $(OBJDIR)$(RC)\n"
+	@rm -rf $(OBJDIR)
 
 
-fclean : clean libft-fclean
-	@printf "$(RE)--- Removing $(NAME)$(RC)"
+fclean : clean
+	@make fclean -C lib/libft
+	@make fclean -C lib/libvec
+	@printf "$(RE)--- Removing $(NAME)$(RC)\n"
 	@rm -f $(NAME)
 
 libft :
-	@make -C lib/libft
-
-libft-re :
 	@make re -C lib/libft
-
-libft-clean :
 	@make clean -C lib/libft
 
-libft-fclean :
-	@make fclean -C lib/libft
-
+libvec :
+	@make re -C lib/libvec
+	@make clean -C lib/libvec
 # Special rule to force to remake everything
-re : fclean all libft-re
+re : fclean all
 
 # This runs the program
 run : $(NAME)

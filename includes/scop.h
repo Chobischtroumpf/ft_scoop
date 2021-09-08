@@ -9,6 +9,7 @@
 # include <fcntl.h>
 #include <math.h>
 # include "libft.h"
+# include "libvec.h"
 
 // #define ROUND_UP 0.01
 
@@ -17,7 +18,7 @@
 #endif
 
 #ifndef SHADERS_PATH
-# define SHADERS_PATH "/Users/alessandro/cursus42/cercle_externe/ft_scop/sources/shaders/"
+# define SHADERS_PATH "./sources/shaders/"
 #endif
 #define PI 3.14159265
 typedef struct scop_s
@@ -32,9 +33,9 @@ typedef struct scop_s
 	GLuint				*faces;
 	int					amount_faces;
 	int					amount_coordinates;
-	float				rotation_matrice[16];
-	float				color_matrice[16];
-	float				center_matrice[16];
+	t_mat4				rotation_matrice;
+	t_mat4				color_matrice;
+	t_mat4				center_matrice;
 	char				*obj;
 	int					shader_program;
 	float				rotation_speed;

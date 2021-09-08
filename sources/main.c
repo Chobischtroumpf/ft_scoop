@@ -49,9 +49,9 @@ int	init_context(scop_t *context, char *obj)
 	context->amount_coordinates = 0;
 	context->obj = obj;
 	context->rotation_speed = 0;
-	reset_matrice(context->rotation_matrice);
-	reset_matrice(context->color_matrice);
-	reset_matrice(context->center_matrice);
+	context->center_matrice = m4_init();
+	context->rotation_matrice = m4_init();
+	context->color_matrice = m4_init();
 	return (1); 
 }
 
@@ -65,12 +65,12 @@ int main(int argc, char **argv)
 		if (!init_context(context, argv[1]))
 			return (0);
 		if (parse_file(context) < 0)
-			return (-1);
+			return (1);
 		context->window = glfwCreateWindow(1280, 1280, "Scop", NULL, NULL);
 		if (!context->window)
 		{
 			glfwTerminate();
-			return (-1);
+			return (2);
 		}
 		glViewport(0, 0, 1280, 1280);
 		glfwMakeContextCurrent(context->window);

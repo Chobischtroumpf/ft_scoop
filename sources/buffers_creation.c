@@ -64,11 +64,7 @@ void	create_buffers(scop_t	*context)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	context->rotation_matrice[0] = 1;
-	context->rotation_matrice[5] = 1;
-	context->rotation_matrice[10] = 1;
-	context->rotation_matrice[15] = 1;
-	glUniformMatrix4fv(glGetUniformLocation(context->shader_program, "transform"), 1, GL_FALSE, context->rotation_matrice);
+	glUniformMatrix4fv(glGetUniformLocation(context->shader_program, "transform"), 1, GL_FALSE, (void *)context->rotation_matrice);
 
 }
 
