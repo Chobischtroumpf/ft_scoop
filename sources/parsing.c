@@ -1,49 +1,22 @@
 #include "scop.h"
 
-// int push_back_vertice(char **vertice_info)
-// {
-// 	scop_t *context = ft_get_context();
-// 	vertices_t	*new;
-// 	int i = -1;
-
-// 	if (!(new = (vertices_t*)malloc(sizeof(*new))))
-// 		return (-1);
-// 	while (++i < 3)
-// 		new->coordinates[i] = atof(vertice_info[i+1]);
-// 	new->next = NULL;
-// 	new->previous = NULL;
-// 	if (context->vertices)
-// 	{
-// 		context->vertices->next = new;
-// 		new->previous = context->vertices;
-// 	}
-// 	context->vertices = new;
-// 	context->amount_coordinates++;
-// 	return (1);
-// }
-
 int	add_vertex(char **vertices_info, scop_t *context)
 {
-	// scop_t *context = ft_get_context();
-	int i = 0;
-	int size = 0;
 
-	while (vertices_info[size+1])
-		size++;
-	if (!(context->vertices = realloc(context->vertices, sizeof(float) * (context->amount_coordinates + 2 * size))))
+	if (!(context->vertices = realloc(context->vertices, sizeof(float) * (context->amount_coordinates + 6))))
 		return (-1);
-	while (i < size)
-	{
-		context->vertices[i + context->amount_coordinates] = atof(vertices_info[i+1]);
-		i++;
-	}
+	context->vertices[context->amount_coordinates] = atof(vertices_info[1]);
+	context->vertices[context->amount_coordinates + 1] = atof(vertices_info[2]);
+	context->vertices[context->amount_coordinates + 2] = atof(vertices_info[3]);
+	context->amount_coordinates += 3;
 	int value = rand() % 10;
-	while (i < (size*2))
+	int i = 0;
+	while (i < 3)
 	{
 		context->vertices[i + context->amount_coordinates] = 0.1f * value;
 		i++;
 	}
-	context->amount_coordinates += 6;
+	context->amount_coordinates += 3;
 	return (0);
 }
 
@@ -111,10 +84,18 @@ int	parse_file(scop_t *context)
 			free(line);
 		}
 	}
-
+	close(fd);
+	i = 0;
+	for (; i < context->amount_coordinates; i++)
+	{
+		printf("%f\n", context->vertices[i]);
+		if (i %3 == 0)
+			printf("\n");
+	}
 	// center_object(context);
-	normalizing_coordinates(context);
-	reset_matrice(context->center_matrice);
-	get_center(context->center_matrice, context->amount_coordinates, context->vertices);
+	if (normalize_vertexes() < 0)
+		return (-1);
+	reset_matrice();
+	get_center();
 	return (1);
 }

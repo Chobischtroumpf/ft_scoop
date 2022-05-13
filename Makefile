@@ -27,14 +27,14 @@ endif
 
 # Folder name
 SRCDIR	= sources/
-INCDIR	= includes/ -I lib/libft/includes -I ~/.brew/include/
+INCDIR	= includes/ -I lib/libft/includes -I lib/libvec/includes -I ~/.brew/include/
 OBJDIR	= bin/
 
 # Add include folder
 CFLAGS	+= -I $(INCDIR)
 
 # Linking stage flags
-LDFLAGS = -L lib/libft -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+LDFLAGS = -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #
@@ -71,7 +71,7 @@ VPATH := $(SRCDIR) $(OBJDIR) $(shell find $(SRCDIR) -type d)
 
 # ================================== RULES =================================== #
 
-all : libft $(NAME)
+all : libft libvec $(NAME)
 
 # Compiling
 $(OBJDIR)%.o : %.c

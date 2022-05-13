@@ -1,44 +1,38 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    MAkefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+         #
+#    By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/11 11:53:12 by adorigo           #+#    #+#              #
-#    Updated: 2021/09/08 14:15:13 by adorigo          ###   ########.fr        #
+#    Updated: 2020/05/14 10:28:23 by adorigo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= libvec.a
+NAME = libvec.a
 
-SRCS 	=	vecs.c matrices.c mat_vec3f.c mat_print.c
+CFLAGS = -Wall -Wextra -Werror -I./includes -c
 
-OBJ_DIR = ./.Objects
-SRC_DIR = ./srcs
-INC_DIR = ./includes
+SRCS = mat_print.c mat_vec3f.c vecs.c matrices.c
 
-OBJS	:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
-
-CFLAGS	:= -Wall -Wextra -Werror -O3 -I$(INC_DIR)
+OBJECTS = $(SRCS:%.c=%.o)
 
 
-all: CREATE_OBJDIR $(NAME)
+all : $(NAME) clean
 
-CREATE_OBJDIR:
-		@mkdir -p $(OBJ_DIR)
+$(NAME) : $(OBJECTS) 
+		ar rcs $(NAME) $(OBJECTS)
 
-$(NAME): $(OBJS)
-		@ar -rc $(NAME) $(OBJS)
-		@ranlib $(NAME)
+$(OBJECTS) : $(SRCS)
+		gcc $(CFLAGS) $(SRCS)
 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC_DIR)/libvec.h
-		@gcc $(CFLAGS) -o $@ -c $<
-
-clean:
-		@rm -rf ./.Objects/$(OBJS)
+clean : 
+	@rm -f $(OBJECTS)
 
 fclean : clean
-		@rm -f $(NAME)
+	@rm -f $(NAME)
 
-re:		fclean all
+re : fclean all
+
+.PHONY: all re clean fclean
