@@ -39,7 +39,7 @@ typedef struct s_vec2f
 
 
 // Vectors Utils
-
+t_vec3f		vec3f_init(void);
 t_vec3f		vec_add(t_vec3f u, t_vec3f v);
 t_vec3f		vec_sub(t_vec3f u, t_vec3f v);
 t_vec3f		vec_cross(t_vec3f u, t_vec3f v);

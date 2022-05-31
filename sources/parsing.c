@@ -86,16 +86,15 @@ int	parse_file(scop_t *context)
 	}
 	close(fd);
 	i = 0;
-	for (; i < context->amount_coordinates; i++)
-	{
-		printf("%f\n", context->vertices[i]);
-		if (i %3 == 0)
-			printf("\n");
-	}
+	// for (; i < context->amount_coordinates; i++)
+	// {
+	// 	printf("%f\n", context->vertices[i]);
+	// 	if (i %3 == 0)
+	// 		printf("\n");
+	// }
 	// center_object(context);
 	if (normalize_vertexes() < 0)
 		return (-1);
-	reset_matrice();
 	get_center();
 	return (1);
 }

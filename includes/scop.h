@@ -1,7 +1,14 @@
+#pragma once
 #ifndef SCOP_H
 # define SCOP_H
 
-# include <openGL/gl3.h>
+// #if linux
+// 	# include <GL/gl.h>
+// #elif darwin
+// 	# include <openGL/gl3.h>
+// #endif
+
+# include <glad/glad.h>
 # include <GLFW/glfw3.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -12,10 +19,6 @@
 # include "libvec.h"
 
 // #define ROUND_UP 0.01
-
-#ifndef ROTATION_SPEED
-# define ROTATION_SPEED 25
-#endif
 
 #ifndef SHADERS_PATH
 # define SHADERS_PATH "./sources/shaders/"
@@ -42,9 +45,12 @@ typedef struct scop_s
 	GLuint				*faces;
 	int					amount_faces;
 	int					amount_coordinates;
+	t_mat4				translation_matrice;
+	t_vec3f				translation_vector;
+	t_vec3f				center_vector;
 	t_mat4				rotation_matrice;
+	t_vec3f				rotation_vector;
 	t_mat4				color_matrice;
-	t_mat4				center_matrice;
 	char				*obj;
 	int					shader_program;
 	float				rotation_speed;

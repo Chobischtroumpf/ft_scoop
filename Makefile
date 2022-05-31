@@ -18,23 +18,37 @@ NAME	= scop
 # Compiler and compiling flags
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra 
-CMACRO  = -DGL_SILENCE_DEPRECATION=1 
+UNAME_S := $(shell uname -s)
 
 # Debug, use with`make DEBUG=1`
 ifeq ($(DEBUG),1)
-CFLAGS	+= -g3 -fsanitize=address
+CFLAGS	+= -g3
 endif
 
 # Folder name
 SRCDIR	= sources/
-INCDIR	= includes/ -I lib/libft/includes -I lib/libvec/includes -I ~/.brew/include/
+INCDIR	= -I includes/ -I lib/libft/includes -I lib/libvec/includes
+# ifeq ($(UNAME_S),Linux)
+INCDIR += -I /home/linuxbrew/.linuxbrew/include
+# endif
+# ifeq ($(UNAME_S), Darwin)
+# INCDIR += -I ~/.brew/include/
+# endif
+
 OBJDIR	= bin/
 
 # Add include folder
-CFLAGS	+= -I $(INCDIR)
+
+CFLAGS	+= $(INCDIR)
 
 # Linking stage flags
-LDFLAGS = -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+
+# ifeq ($(UNAME_S),Linux)
+LDFLAGS = -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
+# endif
+# ifeq ($(UNAME_S),Darwin)
+#	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+# endif
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #
@@ -47,7 +61,8 @@ SRCS = \
 	./sources/parsing.c \
 	./sources/buffers_creation.c\
 	./sources/get_shaders.c\
-	./sources/matrice_manipulation.c
+	./sources/matrice_manipulation.c\
+	./sources/glad.c
 
 HEADERS = \
 	./includes/scop.h\

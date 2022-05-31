@@ -58,3 +58,14 @@ float		vec_dot(t_vec3f u, t_vec3f v)
 {
 	return (u.x * v.x + u.y * v.y + u.z * v.z);
 }
+
+t_vec3f		vec3f_init(void)
+{
+	t_vec3f out;
+
+	out.x = 0;
+	out.y = 0;
+	out.z = 0;
+
+	return(out);
+}

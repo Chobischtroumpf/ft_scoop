@@ -1,0 +1,32 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/alessandro/42_cursus/outside circle/ft_scop'
+make re -C lib/libft
+make clean -C lib/libft
+make re -C lib/libvec
+make clean -C lib/libvec
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/main.c -o bin/main.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/utils.c -o bin/utils.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/parsing.c -o bin/parsing.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/buffers_creation.c -o bin/buffers_creation.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/get_shaders.c -o bin/get_shaders.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/matrice_manipulation.c -o bin/matrice_manipulation.o
+mkdir -p bin/
+printf "\033[32;1m+\033[0m"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/glad.c -o bin/glad.o
+printf "\n\033[32;1m=== Compiled [gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include] ===\n--- main.c utils.c parsing.c buffers_creation.c get_shaders.c matrice_manipulation.c glad.c\033[0m\n"
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  bin/main.o bin/utils.o bin/parsing.o bin/buffers_creation.o bin/get_shaders.o bin/matrice_manipulation.o bin/glad.o -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -o scop
+printf "\033[33;1m&&& Linked [gcc -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm] &&&\n--- scop\033[0m\n"
+make: Leaving directory '/home/alessandro/42_cursus/outside circle/ft_scop'
+ 

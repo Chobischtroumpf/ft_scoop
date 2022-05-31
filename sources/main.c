@@ -16,6 +16,31 @@ void processInput(GLFWwindow *window, scop_t *context)
 			glfwSetTime(time);
 		context->rotation_speed = 0;
 	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
+		context->translation_vector.x += 0.05;
+		context->center_vector.x += 0.05;
+
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+		context->translation_vector.x -= 0.05;
+		context->center_vector.x -= 0.05;
+		}
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
+		context->translation_vector.y += 0.05;
+		context->center_vector.y += 0.05;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
+		context->translation_vector.y -= 0.05;
+		context->center_vector.y -= 0.05;
+	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS){
+		context->translation_vector.z += 0.05;
+		context->center_vector.z += 0.05;
+		}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS){
+		context->translation_vector.z -= 0.05;
+		context->center_vector.z -= 0.05;
+		}
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
@@ -49,7 +74,8 @@ int	init_context(scop_t *context, char *obj)
 	context->amount_coordinates = 0;
 	context->obj = obj;
 	context->rotation_speed = 0;
-	context->center_matrice = m4_init();
+	context->center_vector = vec3f_init();
+	context->translation_vector = vec3f_init();
 	context->rotation_matrice = m4_init();
 	context->color_matrice = m4_init();
 	return (1); 
@@ -72,8 +98,12 @@ int main(int argc, char **argv)
 			glfwTerminate();
 			return (2);
 		}
-		glViewport(0, 0, 1280, 1280);
 		glfwMakeContextCurrent(context->window);
+		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        	printf("Failed to initialize OpenGL context\n");
+        	return -1;
+    	}
+		glViewport(0, 0, 1280, 1280);
 		glfwSetFramebufferSizeCallback(context->window, set_window_framebuffer);
 		if (compile_shader_progs(context) < 0)
 			exit(-1);
@@ -81,12 +111,12 @@ int main(int argc, char **argv)
 		int i = 0;
 		glfwSetTime(1);
 		glEnable(GL_DEPTH_TEST);
-		// glDepthFunc(GL_LESS);
+		glDepthFunc(GL_LESS);
 		while (!glfwWindowShouldClose(context->window))
 		{
 			processInput(context->window, context);
-			// /* Render here */
-			glClearColor(0.1, 0.1, 0.1, 1.0f);
+			/* Render here */
+			glClearColor(0.8, 0.8, 0.8, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			// coloring(context);
 			glUseProgram(context->shader_program);
@@ -94,13 +124,14 @@ int main(int argc, char **argv)
 			glBindVertexArray(context->VAO);
 			glDrawElements(GL_TRIANGLES, context->amount_faces, GL_UNSIGNED_INT, 0);
 			/* Swap front and back buffers */
-
 			glfwPollEvents();
 			glfwSwapBuffers(context->window);
-			if (i%60 == 0)
-				printf("%d | %f\n", i, glfwGetTime());
+			// if (i%5 == 0)
+			context->rotation_vector.y = i/(40*PI);
+			// if (i%60 == 0)
+			// 	printf("%d | %f\n", i, glfwGetTime());
 			i++;
-			// sleep(5);
+			// usleep(1700);
 		}
 		glDeleteVertexArrays(1, &(context->VAO));
 		glDeleteBuffers(1, &(context->VBO));

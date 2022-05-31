@@ -2,49 +2,17 @@
 
 void	rotate_y(scop_t *context)
 {
-	static float	rotation;
-	t_mat4	inverted_center = m4_init();
+	// static float	rotation;
+	// t_mat4	inverted_center = m4_init();
 	int transform = glGetUniformLocation(context->shader_program, "transform");
-	int	trl_to_center = glGetUniformLocation(context->shader_program, "trl_to_center");
-	int	trl_from_center = glGetUniformLocation(context->shader_program, "trl_from_center");
-	if (!context->rotation_speed)
-		rotation = ROTATION_SPEED * glfwGetTime() *  (PI / 180);
-	
-	// printf("\n\n");
-	// int i = -1;
-	// int j = -1;
-	// while (++i < 4){
-	// 	j = -1;
-	// 	while(++j < 4)
-	// 		printf("inverted_matrice[%d][%d] : %f\n", i, j, context->center_matrice.value[i][j]);
-	// }
-	// i = 0;
-	// j = 0;
-	// while (++i < 4){
-	// 	j = -1;
-	// 	while(++j < 4)
-	// 		printf("inverted_matrice[%d][%d] : %f\n", i, j, inverted_center.value[i][j]);
-	// }
+	int	translation = glGetUniformLocation(context->shader_program, "translation");
+	// int	trl_from_center = glGetUniformLocation(context->shader_program, "trl_from_center");
+	context->translation_matrice = m4_translate(context->translation_vector.x, context->translation_vector.y, context->translation_vector.z);
+	context->rotation_matrice = m4_rotation_around_center(context->center_vector, 0, context->rotation_vector.y, 0);
 	glUniformMatrix4fv(transform, 1, GL_FALSE, (float *)context->rotation_matrice.value);
-	glUniformMatrix4fv(trl_from_center, 1, GL_FALSE, (float *)context->center_matrice.value);
-	glUniformMatrix4fv(trl_to_center, 1, GL_FALSE, (float *)inverted_center.value);
-}
-
-void	reset_matrice(void)
-{
-	scop_t *context = ft_get_context();
-	int i = -1;
-	while (++i < 4)
-	{
-		int j = -1;
-		while (++j < 4){
-			context->center_matrice.value[i][j] = 0;
-		}
-	}
-	context->center_matrice.value[0][0] = 1;
-	context->center_matrice.value[1][1] = 1;
-	context->center_matrice.value[2][2] = 1;
-	context->center_matrice.value[3][3] = 1;
+	// glUniformMatrix4fv(trl_from_center, 1, GL_FALSE, (float *)context->center_matrice.value);
+	// glUniformMatrix4fv(trl_to_center, 1, GL_FALSE, (float *)inverted_center.value);
+	glUniformMatrix4fv(translation, 1, GL_FALSE, (float *)context->translation_matrice.value);
 }
 
 int	normalize_vertexes()
