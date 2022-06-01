@@ -5,7 +5,7 @@ char *get_vertex_shader(void)
 	char buffer[101];
 	char *source = NULL;
 	char *tmp;
-	char *path = ft_strjoin(SHADERS_PATH, "vertex_shader.vsh");
+	char *path = ft_strjoin(OBJECT_PATH, "vertex_shader.vsh");
 	int fd = open(path, O_RDONLY);
 	int ret;
 	if (fd < 0)

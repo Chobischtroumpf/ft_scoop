@@ -38,16 +38,16 @@ t_vec3f		vec_cross(t_vec3f u, t_vec3f v)
     return (result);
 }
 
-float		vec_length(t_vec3f u)
+float		vec_length(t_vec3f *u)
 {
-	return (sqrtf(u.x * u.x + u.y * u.y + u.z * u.z));
+	return (sqrtf(u->x * u->x + u->y * u->y + u->z * u->z));
 }
 
 t_vec3f		vec_normalize(t_vec3f u)
 {
 	float	l;
 
-	l = 1 / vec_length(u);
+	l = 1 / vec_length(&u);
 	u.x *= l;
 	u.y *= l;
 	u.z *= l;

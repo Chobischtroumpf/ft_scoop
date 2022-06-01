@@ -19,17 +19,17 @@ int	normalize_vertexes()
 {
 	scop_t *context = ft_get_context();
 	int i = 0;
-	t_vertex *vertex;
+	t_vec3f *vertex;
 	float furthest_point = 0;
 	float current_point = 0;
 	while (i < context->amount_coordinates)
 	{
-		if (!(vertex = (t_vertex *)malloc(sizeof(t_vertex))))
+		if (!(vertex = (t_vec3f *)malloc(sizeof(t_vec3f))))
 			return (-1);
 		vertex->x = context->vertices[i];
 		vertex->y = context->vertices[i+1];
 		vertex->z = context->vertices[i+2];
-		current_point = sqrt(vertex->x*vertex->x + vertex->y*vertex->y + vertex->z*vertex->z);
+		current_point =	vec_length(vertex);
 		if (current_point > furthest_point)
 			furthest_point = current_point;
 		free(vertex);	

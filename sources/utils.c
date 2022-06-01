@@ -40,9 +40,9 @@ void	get_center(void)
 	context->center_vector.z = (min_z + max_z)/2;
 }
 
-void	invert_w(float *inverted_matrice, float *matrice)
-{
-	inverted_matrice[3] = -matrice[3];
-	inverted_matrice[7] = -matrice[7];
-	inverted_matrice[11] = -matrice[11];
-}
+// void	invert_w(float *inverted_matrice, float *matrice)
+// {
+// 	inverted_matrice[3] = -matrice[3];
+// 	inverted_matrice[7] = -matrice[7];
+// 	inverted_matrice[11] = -matrice[11];
+// }

@@ -46,7 +46,7 @@ t_vec3f		vec_cross(t_vec3f u, t_vec3f v);
 t_vec3f		vec_multf(t_vec3f u, float f);
 t_vec3f		vec_normalize(t_vec3f u);
 float		vec_dot(t_vec3f u, t_vec3f v);
-float		vec_length(t_vec3f u);
+float		vec_length(t_vec3f *u);
 
 // Matrices Utils
 
