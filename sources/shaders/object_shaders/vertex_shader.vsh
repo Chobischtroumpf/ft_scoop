@@ -10,10 +10,11 @@ uniform mat4 coloration;
 
 void main()
 {
-	float ambientStrength = 0.1;
-	vec3 ambient = ambientStrength * aColor;
+	// float ambientStrength = 0.1;
+	// vec3 ambient = ambientStrength * aColor;
 
-	vec3 result= ambient * objectColor
-	gl_Position = transform* translation * vec4(aPos, 0.5);
-	resultingColor = /*coloration * */ 
+	// vec3 ourColor= ambient /* * objectColor*/;
+	gl_Position = transform * translation * vec4(aPos, 0.5);
+	ourColor = coloration * vec4(aColor, 1.0);
+	// resultingColor = /*coloration * */ 
 }

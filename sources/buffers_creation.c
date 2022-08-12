@@ -26,59 +26,74 @@ int	compile_shader_progs(scop_t	*context)
 	const GLchar		*vertex_shader_source = get_vertex_shader();
 	const GLchar		*fragment_shader_source = get_fragment_shader();
 	
-	if (!vertex_shader_source || !fragment_shader_source)
+	if (!vertex_shader_source || !fragment_shader_source){
+		printf("Error: can't get shader source\n");
 		return(-1);
-	GLuint				vertex_shader = creating_shader_obj(vertex_shader_source, GL_VERTEX_SHADER);
-	GLuint				fragment_shader = creating_shader_obj(fragment_shader_source, GL_FRAGMENT_SHADER);
-	
-	if (!vertex_shader || !fragment_shader)
-		return (-1);
- 	context->shader_program = glCreateProgram();
-	glAttachShader(context->shader_program, vertex_shader);
-	glAttachShader(context->shader_program, fragment_shader);
-	glLinkProgram(context->shader_program);
-	glGetProgramiv(context->shader_program, GL_LINK_STATUS, &success);
-	if(!success)
-	{
-		glGetProgramInfoLog(context->shader_program, 512, NULL, infoLog);
-		printf("Error: %s\n", infoLog);
-		return (-1);
 	}
-	// glUseProgram(context->shader_program);
-	glDeleteShader(vertex_shader);
-	glDeleteShader(fragment_shader);  
+	// for (int i = 0; i < context->amount_objects; i++)
+	// {
+		GLuint	vertex_shader = creating_shader_obj(vertex_shader_source, GL_VERTEX_SHADER);
+		GLuint	fragment_shader = creating_shader_obj(fragment_shader_source, GL_FRAGMENT_SHADER);
+
+		if (!vertex_shader || !fragment_shader){
+			printf("Error: can't create shader\n");
+			return (-1);
+		}
+		context->shader_program = glCreateProgram();
+		glAttachShader(context->shader_program, vertex_shader);
+		glAttachShader(context->shader_program, fragment_shader);
+		glLinkProgram(context->shader_program);
+		glGetProgramiv(context->shader_program, GL_LINK_STATUS, &success);
+		if(!success)
+		{
+			glGetProgramInfoLog(context->shader_program, 512, NULL, infoLog);
+			printf("Error: %s\n", infoLog);
+			return (-1);
+		}
+		glDeleteShader(vertex_shader);
+		glDeleteShader(fragment_shader);  
+	// }
 	return (0);
 }
 
-void	create_buffers(scop_t	*context)
+void	create_buffers(object_t **objects)
 {
-	glGenBuffers(1, &(context->VBO));
-	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->amount_coordinates, context->vertices, GL_DYNAMIC_DRAW);
-	glGenBuffers(1, &(context->EBO));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * context->amount_faces, context->faces, GL_STATIC_DRAW);
-	glGenVertexArrays(1, &(context->VAO));
-	glBindVertexArray(context->VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glUniformMatrix4fv(glGetUniformLocation(context->shader_program, "transform"), 1, GL_FALSE, (void*)context->rotation_matrice.value);
-
+	for (int i =0; i < ft_get_context()->amount_objects; i++)
+	{
+		glGenBuffers(1, &(objects[i]->VBO));
+		glBindBuffer(GL_ARRAY_BUFFER, objects[i]->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * objects[i]->amount_coordinates, objects[i]->vertices, GL_DYNAMIC_DRAW);
+		glGenBuffers(1, &(objects[i]->EBO));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, objects[i]->EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * objects[i]->amount_faces, objects[i]->faces, GL_STATIC_DRAW);
+		glGenVertexArrays(1, &(objects[i]->VAO));
+		glBindVertexArray(objects[i]->VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, objects[i]->VBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, objects[i]->EBO);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		glUniformMatrix4fv(glGetUniformLocation(ft_get_context()->shader_program, "transform"), 1, GL_FALSE, (void*)objects[i]->rotation_matrice.value);
+	}
 }
 
 void update_buffers(scop_t *context)
 {
-	glBindVertexArray(context->VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, context->VBO);
-	rotate_y(context);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->amount_coordinates, context->vertices, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->EBO);
-	// Position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	// Color
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+	for (int i = 0; i < context->amount_objects; i++)
+	{
+		glBindVertexArray(context->objects[i]->VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, context->objects[i]->VBO);
+		rotate_y(context);
+		printf("apres rotate_y\n");
+		m4_print(context->objects[i]->rotation_matrice);
+		m4_print(context->objects[i]->translation_matrice);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->objects[i]->amount_coordinates, context->objects[i]->vertices, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->objects[i]->EBO);
+		// Position
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		// Color
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+	}
 }

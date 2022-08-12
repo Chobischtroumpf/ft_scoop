@@ -15,7 +15,7 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"miDebuggerPath": "/usr/bin/gdb",
+			"miDebuggerPath": "/usr/bin/lldb",
 			"MIMode": "lldb"
 		}
 	]

@@ -83,7 +83,7 @@ void set_window_framebuffer(GLFWwindow *window, int width, int height)
 
 int	init_context(scop_t *context, char **obj, int argc)
 {
-	int i = 0;
+	int i = 1;
 
 	if (!glfwInit())
 	{
@@ -96,21 +96,33 @@ int	init_context(scop_t *context, char **obj, int argc)
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	context->primary = glfwGetPrimaryMonitor();
 	context->video_mode = glfwGetVideoMode(context->primary);
-	if (!(context->obj = (char **)malloc(sizeof(char*) * (argc-1))))
+	if (!(context->obj = (char **)malloc(sizeof(char*) * (argc-1)))){
+		printf("malloc failed\n");
 		exit(-1);
+	}
 	while (i < argc)
 	{
-		if (!(context->obj[i] = ft_strdup(obj[i])))
+		if (!(context->obj[i-1] = ft_strdup(obj[i])))
+		{
+			printf("strdup failed\n");
 			exit(-1);
+		}
 		i++;
 	}
-	context->amount_objects = i;
-	if (!(context->objects = (object_t**)malloc(sizeof(object_t*) * context->amount_objects)))
+	context->amount_objects = i - 1;
+	printf("%d\n", context->amount_objects);
+	if (!(context->objects = (object_t**)calloc(context->amount_objects, sizeof(object_t*)))){
+		printf("calloc 1 failed\n");
 		exit(-1);
+	}
 	i = 0;
+	context->shader_program = 0;
 	while( i < context->amount_objects)
 	{
-		context->objects[i]->shader_program = 0;
+		if (!(context->objects[i] = (object_t*)calloc(1, sizeof(object_t)))){
+			printf("calloc 2 failed\n");
+			exit(-1);
+		}
 		context->objects[i]->vertices = NULL;
 		context->objects[i]->amount_faces = 0;
 		context->objects[i]->amount_coordinates = 0;
@@ -153,45 +165,48 @@ int main(int argc, char **argv)
     	}
 		glViewport(0, 0, 1280, 1280);
 		glfwSetFramebufferSizeCallback(context->window, set_window_framebuffer);
-		if (compile_shader_progs(context) < 0)
+		if (compile_shader_progs(context) < 0){
+			printf("compile_shader_progs failed\n");
 			exit(-1);
-		create_buffers(context);
-		int i = 0;
+		}
+		create_buffers(context->objects);
 		glfwSetTime(1);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		while (!glfwWindowShouldClose(context->window))
 		{
-			for (i = 0; i < context->amount_objects; i++)
+			for (int i = 0; i < context->amount_objects; i++)
 			{
 				processInput(context->window, context);
 				/* Render here */
 				glClearColor(0.8, 0.8, 0.8, 1.0f);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				// coloring(context);
-				glUseProgram(context->objects[i]->shader_program);
+				glUseProgram(context->shader_program);
 				update_buffers(context);
 				glBindVertexArray(context->objects[i]->VAO);
 				glDrawElements(GL_TRIANGLES, context->objects[i]->amount_faces, GL_UNSIGNED_INT, 0);
 				/* Swap front and back buffers */
 				glfwPollEvents();
 				glfwSwapBuffers(context->window);
+				int j = 0;
 				if (context->objects[i]->should_rotate)
 				{
-					context->objects[i]->rotation_vector.y = i/(40*PI);
-					i++;
+					context->objects[i]->rotation_vector.y = j/(40*PI);
+					j++;
 				}
 				usleep(1700);
 			}
 		}
-		for (i = 0; i < context->amount_objects; i++)
+		for (int i = 0; i < context->amount_objects; i++)
 		{
 			glDeleteVertexArrays(1, &(context->objects[i]->VAO));
 			glDeleteBuffers(1, &(context->objects[i]->VBO));
 			glDeleteBuffers(1, &(context->objects[i]->EBO));
-			glDeleteProgram(context->objects[i]->shader_program);
+			glDeleteProgram(context->shader_program);
 		}
 		glfwTerminate();
+		printf("end of loop\n");
 		exit(0);
 		return 0;
 	}

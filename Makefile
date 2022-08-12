@@ -22,18 +22,18 @@ UNAME_S := $(shell uname -s)
 
 # Debug, use with`make DEBUG=1`
 ifeq ($(DEBUG),1)
-CFLAGS	+= -g3
+CFLAGS	+= -g3 -fsanitize=address
 endif
 
 # Folder name
 SRCDIR	= sources/
 INCDIR	= -I includes/ -I lib/libft/includes -I lib/libvec/includes
-# ifeq ($(UNAME_S),Linux)
-INCDIR += -I /home/linuxbrew/.linuxbrew/include
-# endif
-# ifeq ($(UNAME_S), Darwin)
-# INCDIR += -I ~/.brew/include/
-# endif
+ifeq ($(UNAME_S),Linux)
+	INCDIR += -I /home/linuxbrew/.linuxbrew/include
+endif
+ifeq ($(UNAME_S), Darwin)
+	INCDIR += -I ~/.brew/include/
+endif
 
 OBJDIR	= bin/
 
@@ -43,12 +43,12 @@ CFLAGS	+= $(INCDIR)
 
 # Linking stage flags
 
-# ifeq ($(UNAME_S),Linux)
-LDFLAGS = -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
-# endif
-# ifeq ($(UNAME_S),Darwin)
-#	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.4/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
-# endif
+ifeq ($(UNAME_S),Linux)
+	LDFLAGS = -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
+endif
+ifeq ($(UNAME_S),Darwin)
+	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.8/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+endif
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #

@@ -55,6 +55,7 @@ int	parse_files(scop_t *context)
 
 	for (int j = 0; j < context->amount_objects; j++)
 	{
+		
 		if (!ft_strlast(context->obj[j], ".obj"))
 			return(-1);
 		fd = open(context->obj[j], O_RDONLY);

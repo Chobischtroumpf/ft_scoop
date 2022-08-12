@@ -8,7 +8,7 @@ char *get_vertex_shader(void)
 	char *path = ft_strjoin(OBJECT_PATH, "vertex_shader.vsh");
 	int fd = open(path, O_RDONLY);
 	int ret;
-	if (fd < 0)
+	if (fd < 0 || path == NULL)
 		return (NULL);
 	free(path);
 	while ((ret = read(fd, buffer, 100)) > 0)
@@ -32,7 +32,7 @@ char *get_fragment_shader(void)
 	char buffer[101];
 	char *source = NULL;
 	char *tmp;
-	char *path = ft_strjoin(SHADERS_PATH, "fragment_shader.fsh");
+	char *path = ft_strjoin(OBJECT_PATH, "fragment_shader.fsh");
 	int fd = open(path, O_RDONLY);
 	int ret;
 	free(path);

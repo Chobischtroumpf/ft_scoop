@@ -21,11 +21,12 @@
 // #define ROUND_UP 0.01
 
 #ifndef OBJECT_PATH
-# define OBJECT_PATH "./sources/shaders/object_shaders"
+# define OBJECT_PATH "./sources/shaders/object_shaders/"
 #endif
 #ifndef LIGHT_PATH
-# define LIGHT_PATH "./sources/shaders/lighting_shaders"
+# define LIGHT_PATH "./sources/shaders/lighting_shaders/"
 #endif
+
 #define PI 3.14159265
 
 typedef struct s_vertices
@@ -59,6 +60,7 @@ typedef struct object_s
 
 typedef struct scop_s
 {
+	int					shader_program;
 	char				**obj;
 	int					amount_objects;
 	int					working_object;
@@ -72,10 +74,10 @@ typedef struct scop_s
 
 scop_t	*ft_get_context(void);
 int		parse_files(scop_t *context);
-void	create_buffers(scop_t *context);
 int		normalize_vertexes(void);
 int		compile_shader_progs(scop_t	*context);
 void	rotate_y(scop_t *context);
+void	create_buffers(object_t **objects);
 void	update_buffers(scop_t *context);
 void	center_object(scop_t *context);
 void	reset_matrice();
