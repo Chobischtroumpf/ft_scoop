@@ -17,27 +17,27 @@ void	get_center(void)
 	float	max_y = -INFINITY;
 	float	min_z = INFINITY;
 	float	max_z = -INFINITY;
-	while (i+2 < context->amount_coordinates)
+	while (i+2 < context->objects[0]->amount_coordinates)
 	{
-		if (context->vertices[i] < min_x)
-			min_x = context->vertices[i];
-		else if (context->vertices[i] > max_x)
-			max_x = context->vertices[i];
+		if (context->objects[0]->vertices[i] < min_x)
+			min_x = context->objects[0]->vertices[i];
+		else if (context->objects[0]->vertices[i] > max_x)
+			max_x = context->objects[0]->vertices[i];
 		i++;
-		if (context->vertices[i] < min_y)
-			min_y = context->vertices[i];
-		else if (context->vertices[i] > max_y)
-			max_y = context->vertices[i];
+		if (context->objects[0]->vertices[i] < min_y)
+			min_y = context->objects[0]->vertices[i];
+		else if (context->objects[0]->vertices[i] > max_y)
+			max_y = context->objects[0]->vertices[i];
 		i++;
-		if (context->vertices[i] < min_z)
-			min_z = context->vertices[i];
-		else if (context->vertices[i] > max_z)
-			max_z = context->vertices[i];
+		if (context->objects[0]->vertices[i] < min_z)
+			min_z = context->objects[0]->vertices[i];
+		else if (context->objects[0]->vertices[i] > max_z)
+			max_z = context->objects[0]->vertices[i];
 		i +=4;
 	}
-	context->center_vector.x = (min_x + max_x)/2;
-	context->center_vector.y = (min_y + max_y)/2;
-	context->center_vector.z = (min_z + max_z)/2;
+	context->objects[0]->center_vector.x = (min_x + max_x)/2;
+	context->objects[0]->center_vector.y = (min_y + max_y)/2;
+	context->objects[0]->center_vector.z = (min_z + max_z)/2;
 }
 
 // void	invert_w(float *inverted_matrice, float *matrice)

@@ -18,7 +18,7 @@ printf "\033[32;1m+\033[0m"
 gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/buffers_creation.c -o bin/buffers_creation.o
 mkdir -p bin/
 printf "\033[32;1m+\033[0m"
-gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/get_shaders.c -o bin/get_shaders.o
+gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/shaders/get_shaders.c -o bin/get_shaders.o
 mkdir -p bin/
 printf "\033[32;1m+\033[0m"
 gcc -Wall -Werror -Wextra  -I includes/ -I lib/libft/includes -I lib/libvec/includes -I /home/linuxbrew/.linuxbrew/include  -c sources/matrice_manipulation.c -o bin/matrice_manipulation.o

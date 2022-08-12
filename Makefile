@@ -60,7 +60,7 @@ SRCS = \
 	./sources/utils.c \
 	./sources/parsing.c \
 	./sources/buffers_creation.c\
-	./sources/get_shaders.c\
+	./sources/shaders/get_shaders.c\
 	./sources/matrice_manipulation.c\
 	./sources/glad.c
 

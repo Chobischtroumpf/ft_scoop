@@ -36,7 +36,7 @@ typedef struct s_vertices
 
 }				t_vertex;
 
-typedef struct s_object
+typedef struct object_s
 {
 	int					shader_program;
 	float				*vertices;
@@ -53,7 +53,8 @@ typedef struct s_object
 	t_mat4				rotation_matrice;
 	t_vec3f				rotation_vector;
 	t_mat4				color_matrice;
-}				t_object;
+	t_mat4				lighting_matrice;
+}				object_t;
 
 
 typedef struct scop_s
@@ -64,13 +65,13 @@ typedef struct scop_s
 	GLFWmonitor			*primary;
 	GLFWwindow			*window;
 	const GLFWvidmode	*video_mode;
-	t_object			**objects;
-	t_object			*lighting;
+	object_t			**objects;
+	object_t			*lighting;
 
 }	scop_t;
 
 scop_t	*ft_get_context(void);
-int		parse_file(scop_t *context);
+int		parse_files(scop_t *context);
 void	create_buffers(scop_t *context);
 int		normalize_vertexes(void);
 int		compile_shader_progs(scop_t	*context);

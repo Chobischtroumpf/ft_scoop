@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue May 31 20:18:39 2022
+# Make data base, printed on Fri Aug 12 10:46:21 2022
 
 # Variables
 
@@ -31,9 +31,7 @@ SNAP_COMMON = /var/snap/code/common
 # environment
 XDG_SESSION_TYPE = x11
 # environment
-VSCODE_LOG_NATIVE = false
-# environment
-NVM_INC = /home/alessandro/.nvm/versions/node/v18.1.0/include/node
+NVM_INC = /home/alessandro/.nvm/versions/node/v17.6.0/include/node
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -51,11 +49,11 @@ CURDIR := /home/alessandro/42_cursus/outside circle/ft_scop
 # makefile
 SHELL = /bin/sh
 # environment
-SNAP_DATA = /var/snap/code/97
+SNAP_DATA = /var/snap/code/104
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-_ = /snap/code/97/usr/share/code/code
+_ = /snap/code/104/usr/share/code/code
 # makefile (from 'Makefile', line 42)
 CFLAGS = -Wall -Werror -Wextra  $(INCDIR)
 # environment
@@ -80,12 +78,10 @@ MAKELEVEL := 0
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
-# environment
-VSCODE_VERBOSE_LOGGING = true
 # makefile (from 'Makefile', line 75)
 OBJS := bin/main.o bin/utils.o bin/parsing.o bin/buffers_creation.o bin/get_shaders.o bin/matrice_manipulation.o bin/glad.o
 # environment
-INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
+INFOPATH = /home/linuxbrew/.linuxbrew/share/info:/home/linuxbrew/.linuxbrew/share/info:
 # environment
 CLUTTER_IM_MODULE = xim
 # environment
@@ -95,34 +91,31 @@ LC_NAME = de_BE.UTF-8
 # environment
 VSCODE_CWD = /home/alessandro
 # environment
-GSETTINGS_SCHEMA_DIR = /snap/code/97/usr/share/glib-2.0/schemas
+GSETTINGS_SCHEMA_DIR = /snap/code/104/usr/share/glib-2.0/schemas
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/alessandro/.nvm/versions/node/v18.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/alessandro/.nvm/versions/node/v17.6.0/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/alessandro-omen-16:@/tmp/.ICE-unix/4597,unix/alessandro-omen-16:/tmp/.ICE-unix/4597
+SESSION_MANAGER = local/alessandro-omen-16:@/tmp/.ICE-unix/2707,unix/alessandro-omen-16:/tmp/.ICE-unix/2707
 # environment
- 
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/alessandro/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
 TEXTDOMAIN = im-config
 # environment
-SNAP = /snap/code/97
+SNAP = /snap/code/104
 # environment
-NVM_BIN = /home/alessandro/.nvm/versions/node/v18.1.0/bin
+NVM_BIN = /home/alessandro/.nvm/versions/node/v17.6.0/bin
 # makefile (from 'Makefile', line 85)
-VPATH := sources/ bin/ sources/ sources/shaders
+VPATH := sources/ bin/ sources/ sources/shaders sources/shaders/object_shaders sources/shaders/lighting_shaders
 # environment
-SNAP_VERSION = c3511e6c
+SNAP_VERSION = 6d9b74a7
 # environment
 XDG_MENU_PREFIX = gnome-
-# environment
-VSCODE_LOG_STACK = false
 # environment
 DISABLE_WAYLAND = 1
 # environment
@@ -130,7 +123,7 @@ ELECTRON_RUN_AS_NODE = 1
 # makefile (from 'Makefile', line 47)
 LDFLAGS = -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
 # environment
-GDK_PIXBUF_MODULEDIR = /snap/code/97/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+GDK_PIXBUF_MODULEDIR = /snap/code/104/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # makefile (from 'Makefile', line 78)
@@ -142,7 +135,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 19555
+GIO_LAUNCHED_DESKTOP_FILE_PID = 8428
 # automatic
 %F = $(notdir $%)
 # makefile (from 'Makefile', line 21)
@@ -154,8 +147,6 @@ SRCDIR = sources/
 # environment
 GTK_IM_MODULE = ibus
 # environment
-VSCODE_PIPE_LOGGING = true
-# environment
 SNAP_INSTANCE_KEY = 
 # environment
 PWD = /home/alessandro/42_cursus/outside circle/ft_scop
@@ -164,13 +155,13 @@ HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 4692
+SSH_AGENT_PID = 2815
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
 GTK_MODULES = gail:atk-bridge
 # environment
-MANPATH = /home/linuxbrew/.linuxbrew/share/man:
+MANPATH = /home/linuxbrew/.linuxbrew/share/man:/home/alessandro/.nvm/versions/node/v17.6.0/share/man:/home/linuxbrew/.linuxbrew/share/man::
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -182,11 +173,11 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/alessandro/.config/Code/CachedData/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5
+VSCODE_CODE_CACHE_PATH = /home/alessandro/.config/Code/CachedData/6d9b74a70ca9c7733b29f0456fd8195364076dda
 # environment
 LOGNAME = alessandro
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # environment
@@ -220,11 +211,11 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-QT_IM_MODULE = xim
+QT_IM_MODULE = ibus
 # makefile (from 'Makefile', line 58)
-SRCS = ./sources/main.c ./sources/utils.c ./sources/parsing.c ./sources/buffers_creation.c ./sources/get_shaders.c ./sources/matrice_manipulation.c ./sources/glad.c
+SRCS = ./sources/main.c ./sources/utils.c ./sources/parsing.c ./sources/buffers_creation.c ./sources/shaders/get_shaders.c ./sources/matrice_manipulation.c ./sources/glad.c
 # environment
-SNAP_USER_DATA = /home/alessandro/snap/code/97
+SNAP_USER_DATA = /home/alessandro/snap/code/104
 # environment
 SHLVL = 1
 # makefile (from 'Makefile', line 81)
@@ -234,13 +225,11 @@ CC = gcc
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b0c29372-80b3-48cc-89ed-ca6077bb7b53.sock
-# environment
 XDG_SESSION_ID = 3
 # environment
 USER = alessandro
 # environment
-SNAP_REVISION = 97
+SNAP_REVISION = 104
 # environment
 LC_MONETARY = de_BE.UTF-8
 # makefile
@@ -262,7 +251,7 @@ MAKE_COMMAND := make
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-eb3d65b7-1.67.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-eb3d65b7-1.70.1-main.sock
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # makefile (from 'Makefile', line 82)
@@ -289,6 +278,7 @@ LC_IDENTIFICATION = de_BE.UTF-8
 HOMEBREW_REPOSITORY = /home/linuxbrew/.linuxbrew/Homebrew
 # environment
 QT_ACCESSIBILITY = 1
+ 
 # environment
 TEXTDOMAINDIR = /usr/share/locale/
 # default
@@ -334,10 +324,9 @@ LC_ADDRESS = de_BE.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 19607
+VSCODE_PID = 8479
 # variable set hash-table stats:
- 
-# Load=162/1024=16%, Rehash=0, Collisions=34/215=16%
+# Load=157/1024=15%, Rehash=0, Collisions=33/210=16%
 
 # Pattern-specific Variable Values
 
@@ -345,12 +334,14 @@ VSCODE_PID = 19607
 
 # Directories
 
-# . (device 66309, inode 4205256): 13 files, no impossibilities.
-# sources/shaders (device 66309, inode 4205417): 4 files, no impossibilities.
-# sources (device 66309, inode 4205411): 10 files, no impossibilities.
-# bin (device 66309, inode 4337314): 9 files, no impossibilities.
+# sources/shaders/object_shaders (device 66309, inode 4864771): 4 files, no impossibilities.
+# . (device 66309, inode 4205256): 12 files, no impossibilities.
+# sources/shaders (device 66309, inode 4205417): 5 files, no impossibilities.
+# sources (device 66309, inode 4205411): 9 files, no impossibilities.
+# bin (device 66309, inode 4339440): 2 files, no impossibilities.
+# sources/shaders/lighting_shaders (device 66309, inode 4471514): 4 files, no impossibilities.
 
-# 36 files, no impossibilities in 4 directories.
+# 36 files, no impossibilities in 6 directories.
 
 # Implicit Rules
 
@@ -381,7 +372,7 @@ libvec:
 	@make re -C lib/libvec
 	@make clean -C lib/libvec
 
-scop: sources/main.c sources/utils.c sources/parsing.c sources/buffers_creation.c sources/get_shaders.c sources/matrice_manipulation.c sources/glad.c includes/scop.h bin/main.o bin/utils.o bin/parsing.o bin/buffers_creation.o bin/get_shaders.o bin/matrice_manipulation.o bin/glad.o
+scop: sources/main.c sources/utils.c sources/parsing.c sources/buffers_creation.c sources/shaders/get_shaders.c sources/matrice_manipulation.c sources/glad.c includes/scop.h bin/main.o bin/utils.o bin/parsing.o bin/buffers_creation.o bin/get_shaders.o bin/matrice_manipulation.o bin/glad.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -433,7 +424,7 @@ bin/utils.o:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-29 22:30:54.377666054
+#  Last modified 2022-08-11 13:33:37.966289408
 #  File has been updated.
 #  Successfully updated.
 
@@ -445,12 +436,6 @@ sources/utils.c:
 
 # Not a target:
 bin/get_shaders.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-sources/get_shaders.c:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -473,6 +458,7 @@ fclean: clean
 
 re: fclean all
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -492,6 +478,12 @@ clean:
 	@make clean -C lib/libft
 	@printf "$(RE)--- Removing $(OBJDIR)$(RC)\n"
 	@rm -rf $(OBJDIR)
+
+# Not a target:
+sources/shaders/get_shaders.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 bin/glad.o:
@@ -560,20 +552,20 @@ sources/buffers_creation.c:
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=26/1024=3%, Rehash=0, Collisions=2/73=3%
+# Load=26/1024=3%, Rehash=0, Collisions=1/77=1%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # General ('VPATH' variable) search path:
-# sources:bin:sources:sources/shaders
+# sources:bin:sources:sources/shaders:sources/shaders/object_shaders:sources/shaders/lighting_shaders
 
-# strcache buffers: 1 (0) / strings = 60 / storage = 705 B / avg = 11 B
-# current buf: size = 8162 B / used = 705 B / count = 60 / avg = 11 B
+# strcache buffers: 1 (0) / strings = 59 / storage = 767 B / avg = 13 B
+# current buf: size = 8162 B / used = 767 B / count = 59 / avg = 13 B
 
-# strcache performance: lookups = 94 / hit rate = 36%
+# strcache performance: lookups = 98 / hit rate = 39%
 # hash-table stats:
-# Load=60/8192=1%, Rehash=0, Collisions=4/94=4%
-# Finished Make data base on Tue May 31 20:18:39 2022
+# Load=59/8192=1%, Rehash=0, Collisions=6/98=6%
+# Finished Make data base on Fri Aug 12 10:46:21 2022
 
  

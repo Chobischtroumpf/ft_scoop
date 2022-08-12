@@ -98,22 +98,34 @@ int	init_context(scop_t *context, char **obj, int argc)
 	context->video_mode = glfwGetVideoMode(context->primary);
 	if (!(context->obj = (char **)malloc(sizeof(char*) * (argc-1))))
 		exit(-1);
-	while (i < argc-1)
+	while (i < argc)
 	{
 		if (!(context->obj[i] = ft_strdup(obj[i])))
 			exit(-1);
 		i++;
 	}
 	context->amount_objects = i;
-	if (!(context->objects = (t_object**)malloc(sizeof(t_object*) * context->amount_objects)))
+	if (!(context->objects = (object_t**)malloc(sizeof(object_t*) * context->amount_objects)))
 		exit(-1);
-	context->vertices = NULL;
-	context->amount_coordinates = 0;
-	context->should_rotate = 1;
-	context->center_vector = vec3f_init();
-	context->translation_vector = vec3f_init();
-	context->rotation_matrice = m4_init();
-	context->color_matrice = m4_init();
+	i = 0;
+	while( i < context->amount_objects)
+	{
+		context->objects[i]->shader_program = 0;
+		context->objects[i]->vertices = NULL;
+		context->objects[i]->amount_faces = 0;
+		context->objects[i]->amount_coordinates = 0;
+		context->objects[i]->should_rotate = 1;
+		context->objects[i]->VBO = 0;
+		context->objects[i]->EBO = 0;
+		context->objects[i]->VAO = 0;
+		context->objects[i]->translation_vector = vec3f_init();
+		context->objects[i]->center_vector = vec3f_init();
+		context->objects[i]->rotation_vector = vec3f_init();
+		context->objects[i]->rotation_matrice = m4_init();
+		context->objects[i]->color_matrice = m4_init();
+		context->objects[i]->lighting_matrice = m4_init();
+		i++;
+	}
 	return (1); 
 }
 
@@ -126,7 +138,7 @@ int main(int argc, char **argv)
 	{
 		if (!init_context(context, argv, argc))
 			return (0);
-		if (parse_file(context) < 0)
+		if (parse_files(context) < 0)
 			return (1);
 		context->window = glfwCreateWindow(1280, 1280, "Scop", NULL, NULL);
 		if (!context->window)
@@ -150,29 +162,35 @@ int main(int argc, char **argv)
 		glDepthFunc(GL_LESS);
 		while (!glfwWindowShouldClose(context->window))
 		{
-			processInput(context->window, context);
-			/* Render here */
-			glClearColor(0.8, 0.8, 0.8, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			// coloring(context);
-			glUseProgram(context->shader_program);
-			update_buffers(context);
-			glBindVertexArray(context->VAO);
-			glDrawElements(GL_TRIANGLES, context->amount_faces, GL_UNSIGNED_INT, 0);
-			/* Swap front and back buffers */
-			glfwPollEvents();
-			glfwSwapBuffers(context->window);
-			if (context->should_rotate)
+			for (i = 0; i < context->amount_objects; i++)
 			{
-				context->rotation_vector.y = i/(40*PI);
-				i++;
+				processInput(context->window, context);
+				/* Render here */
+				glClearColor(0.8, 0.8, 0.8, 1.0f);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				// coloring(context);
+				glUseProgram(context->objects[i]->shader_program);
+				update_buffers(context);
+				glBindVertexArray(context->objects[i]->VAO);
+				glDrawElements(GL_TRIANGLES, context->objects[i]->amount_faces, GL_UNSIGNED_INT, 0);
+				/* Swap front and back buffers */
+				glfwPollEvents();
+				glfwSwapBuffers(context->window);
+				if (context->objects[i]->should_rotate)
+				{
+					context->objects[i]->rotation_vector.y = i/(40*PI);
+					i++;
+				}
+				usleep(1700);
 			}
-			usleep(1700);
 		}
-		glDeleteVertexArrays(1, &(context->VAO));
-		glDeleteBuffers(1, &(context->VBO));
-		glDeleteBuffers(1, &(context->EBO));
-		glDeleteProgram(context->shader_program);
+		for (i = 0; i < context->amount_objects; i++)
+		{
+			glDeleteVertexArrays(1, &(context->objects[i]->VAO));
+			glDeleteBuffers(1, &(context->objects[i]->VBO));
+			glDeleteBuffers(1, &(context->objects[i]->EBO));
+			glDeleteProgram(context->objects[i]->shader_program);
+		}
 		glfwTerminate();
 		exit(0);
 		return 0;
