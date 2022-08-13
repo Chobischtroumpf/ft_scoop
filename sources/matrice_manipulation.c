@@ -14,8 +14,8 @@ void	rotate_y(scop_t *context)
 			(float *)context->objects[i]->rotation_matrice.value);
 		glUniformMatrix4fv(translation, 1, GL_FALSE,
 			(float *)context->objects[i]->translation_matrice.value);
-		m4_print(context->objects[i]->rotation_matrice);
-		m4_print(context->objects[i]->translation_matrice);
+		// m4_print(context->objects[i]->rotation_matrice);
+		// m4_print(context->objects[i]->translation_matrice);
 	}
 }
 
@@ -41,14 +41,18 @@ int	normalize_vertexes()
 			free(vertex);	
 			i+=3;
 		}
+		// printf("before normalization:\n");
+		// i = 0;
+		// while(i < context->objects[j]->amount_coordinates){
+		// 	printf("%f\n", context->objects[j]->vertices[i]);
+		// 	i++;}
 		float normalising_factor = 1 / furthest_point;
 		i = 0;
 		while(i < context->objects[j]->amount_coordinates){
 			context->objects[j]->vertices[i] *= normalising_factor;
-			context->objects[j]->vertices[i+1] *= normalising_factor;
-			context->objects[j]->vertices[i+2] *= normalising_factor;
-			i+= 3;
+			i++;
 		}
+		i = 0;
 	}
 	return (0);
 }

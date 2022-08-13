@@ -1,6 +1,6 @@
 #include "scop.h"
 
-char *get_vertex_shader(void)
+GLchar *get_vertex_shader(void)
 {
 	char buffer[101];
 	char *source = NULL;
@@ -27,7 +27,7 @@ char *get_vertex_shader(void)
 	return (source);
 }
 
-char *get_fragment_shader(void)
+GLchar *get_fragment_shader(void)
 {
 	char buffer[101];
 	char *source = NULL;

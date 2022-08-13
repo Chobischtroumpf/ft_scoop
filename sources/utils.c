@@ -41,7 +41,7 @@ void	get_center(void)
 		context->objects[j]->center_vector.x = (min_x + max_x)/2;
 		context->objects[j]->center_vector.y = (min_y + max_y)/2;
 		context->objects[j]->center_vector.z = (min_z + max_z)/2;
-		}
+	}
 }
 
 // void	invert_w(float *inverted_matrice, float *matrice)

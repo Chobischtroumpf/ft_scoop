@@ -26,19 +26,27 @@ int	compile_shader_progs(scop_t	*context)
 	const GLchar		*vertex_shader_source = get_vertex_shader();
 	const GLchar		*fragment_shader_source = get_fragment_shader();
 	
-	if (!vertex_shader_source || !fragment_shader_source){
+	if (vertex_shader_source == (GLchar *)NULL || fragment_shader_source == (GLchar *)NULL){
 		printf("Error: can't get shader source\n");
 		return(-1);
 	}
-	// for (int i = 0; i < context->amount_objects; i++)
-	// {
+	for (int i = 0; i < context->amount_objects; i++)
+	{
+		// printf("Compiling shader program %d\n", i);
+		// printf("creating vertex_shader\n");
 		GLuint	vertex_shader = creating_shader_obj(vertex_shader_source, GL_VERTEX_SHADER);
+		// printf("creating fragment_shader\n");
 		GLuint	fragment_shader = creating_shader_obj(fragment_shader_source, GL_FRAGMENT_SHADER);
-
 		if (!vertex_shader || !fragment_shader){
 			printf("Error: can't create shader\n");
 			return (-1);
 		}
+		// printf("freeing vertex_shader\n");
+		// free((void *)vertex_shader_source);
+		// printf("freeing fragment_shader\n");
+		// free((void *)fragment_shader_source);
+		printf("%s\n", vertex_shader_source);
+		printf("%s\n", fragment_shader_source);
 		context->shader_program = glCreateProgram();
 		glAttachShader(context->shader_program, vertex_shader);
 		glAttachShader(context->shader_program, fragment_shader);
@@ -52,7 +60,7 @@ int	compile_shader_progs(scop_t	*context)
 		}
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);  
-	// }
+	}
 	return (0);
 }
 
@@ -83,9 +91,9 @@ void update_buffers(scop_t *context)
 		glBindVertexArray(context->objects[i]->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, context->objects[i]->VBO);
 		rotate_y(context);
-		printf("apres rotate_y\n");
-		m4_print(context->objects[i]->rotation_matrice);
-		m4_print(context->objects[i]->translation_matrice);
+		// printf("apres rotate_y\n");
+		// m4_print(context->objects[i]->rotation_matrice);
+		// m4_print(context->objects[i]->translation_matrice);
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * context->objects[i]->amount_coordinates, context->objects[i]->vertices, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->objects[i]->EBO);

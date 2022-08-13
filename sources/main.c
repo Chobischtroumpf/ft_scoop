@@ -110,13 +110,13 @@ int	init_context(scop_t *context, char **obj, int argc)
 		i++;
 	}
 	context->amount_objects = i - 1;
-	printf("%d\n", context->amount_objects);
+	// printf("%d\n", context->amount_objects);
 	if (!(context->objects = (object_t**)calloc(context->amount_objects, sizeof(object_t*)))){
 		printf("calloc 1 failed\n");
 		exit(-1);
 	}
 	i = 0;
-	context->shader_program = 0;
+		context->shader_program = 0;
 	while( i < context->amount_objects)
 	{
 		if (!(context->objects[i] = (object_t*)calloc(1, sizeof(object_t)))){
@@ -152,59 +152,64 @@ int main(int argc, char **argv)
 			return (0);
 		if (parse_files(context) < 0)
 			return (1);
-		context->window = glfwCreateWindow(1280, 1280, "Scop", NULL, NULL);
-		if (!context->window)
-		{
+		context->window = glfwCreateWindow(WIDTH, HEIGHT, "Scop", NULL, NULL);
+		if (!context->window){
 			glfwTerminate();
 			return (2);
 		}
 		glfwMakeContextCurrent(context->window);
+		#ifdef __linux__
 		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        	printf("Failed to initialize OpenGL context\n");
-        	return -1;
-    	}
-		glViewport(0, 0, 1280, 1280);
+			printf("Failed to initialize OpenGL context\n");
+			return -1;
+		}
+		#endif
+		set_window_framebuffer(context->window, context->video_mode->width, context->video_mode->height);
+		// printf("");
+		// glGet(GL_VERSION);
 		glfwSetFramebufferSizeCallback(context->window, set_window_framebuffer);
 		if (compile_shader_progs(context) < 0){
 			printf("compile_shader_progs failed\n");
 			exit(-1);
 		}
 		create_buffers(context->objects);
-		glfwSetTime(1);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
+		short j = 0;
+
 		while (!glfwWindowShouldClose(context->window))
 		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(0.8, 0.8, 0.8, 1.0f);
 			for (int i = 0; i < context->amount_objects; i++)
 			{
 				processInput(context->window, context);
 				/* Render here */
-				glClearColor(0.8, 0.8, 0.8, 1.0f);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				// coloring(context);
 				glUseProgram(context->shader_program);
 				update_buffers(context);
 				glBindVertexArray(context->objects[i]->VAO);
 				glDrawElements(GL_TRIANGLES, context->objects[i]->amount_faces, GL_UNSIGNED_INT, 0);
 				/* Swap front and back buffers */
-				glfwPollEvents();
 				glfwSwapBuffers(context->window);
-				int j = 0;
+				glfwPollEvents();
 				if (context->objects[i]->should_rotate)
 				{
 					context->objects[i]->rotation_vector.y = j/(40*PI);
 					j++;
+					if (j == 790)
+						j = 0;
 				}
-				usleep(1700);
 			}
+				usleep(1700);
 		}
 		for (int i = 0; i < context->amount_objects; i++)
 		{
 			glDeleteVertexArrays(1, &(context->objects[i]->VAO));
 			glDeleteBuffers(1, &(context->objects[i]->VBO));
 			glDeleteBuffers(1, &(context->objects[i]->EBO));
-			glDeleteProgram(context->shader_program);
 		}
+		glDeleteProgram(context->shader_program);
 		glfwTerminate();
 		printf("end of loop\n");
 		exit(0);

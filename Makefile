@@ -17,7 +17,7 @@ NAME	= scop
 
 # Compiler and compiling flags
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra 
+CFLAGS	= -Wall -Werror -Wextra -DGL_SILENCE_DEPRECATION=1
 UNAME_S := $(shell uname -s)
 
 # Debug, use with`make DEBUG=1`
@@ -47,7 +47,7 @@ ifeq ($(UNAME_S),Linux)
 	LDFLAGS = -L lib/libft -L lib/libvec -L /home/linuxbrew/.linuxbrew/lib -lvec -lft -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
 endif
 ifeq ($(UNAME_S),Darwin)
-	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/Cellar/glfw/3.3.8/lib/ -lvec -lft -lglfw -framework OpenGL -DGL_SILENCE_DEPRECATION=1
+	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/lib/ -lvec -lft -lglfw -framework OpenGL 
 endif
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
