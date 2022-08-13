@@ -1,3 +1,6 @@
+## I am retiring this version of the app, because of the deprecation of openGL on macOS making it have unexpected behaviors every now and then, but will recode it in c++ using the Vulkan api
+
+
 # ft_scop
 
 this is the first project of the graphics branch at 42
@@ -15,3 +18,5 @@ this is the current advancement of the project :
 - [ ] make it so that the textures are not stretched
 - [ ] correctly rendering "weird" object files
 - [ ] global illumination / shadows
+
+
