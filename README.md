@@ -1,7 +1,10 @@
-## I am retiring this version of the app, because of the deprecation of openGL on macOS making it have unexpected behaviors every now and then, but will recode it in c++ using the Vulkan api
-
-
 # ft_scop
+
+
+## I am retiring this version of the app, because of the deprecation of openGL on macOS making it have unexpected behaviors every now and then, but will recode it in c++ using the Vulkan api
+### I may however update this project again, as openGL is only deprecated on macOS and not on linux, the likeliness of it is quite slim though
+
+
 
 this is the first project of the graphics branch at 42
 this is the current advancement of the project :
