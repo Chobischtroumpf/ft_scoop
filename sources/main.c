@@ -11,66 +11,70 @@ void processInput(GLFWwindow *window, scop_t *context)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && context->amount_objects > 0){
-		context->working_object = 0;
-	}
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && context->amount_objects > 1){
-		context->working_object = 1;
-	}
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && context->amount_objects > 2){
-		context->working_object = 2;
-	}
-	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && context->amount_objects > 3){
-		context->working_object = 3;
-	}
-	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && context->amount_objects > 4){
-		context->working_object = 4;
-	}
-	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && context->amount_objects > 5){
-		context->working_object = 5;
-	}
-	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && context->amount_objects > 6){
-		context->working_object = 6;
-	}
-	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && context->amount_objects > 7){
-		context->working_object = 7;
-	}
-	if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS && context->amount_objects > 8){
-		context->working_object = 8;
-	}
-	if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS && context->amount_objects > 9){
-		context->working_object = 9;
+	//object selection
+	{
+		if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && context->amount_objects > 0){
+			context->working_object = 0;
+		}
+		if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && context->amount_objects > 1){
+			context->working_object = 1;
+		}
+		if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && context->amount_objects > 2){
+			context->working_object = 2;
+		}
+		if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && context->amount_objects > 3){
+			context->working_object = 3;
+		}
+		if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && context->amount_objects > 4){
+			context->working_object = 4;
+		}
+		if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && context->amount_objects > 5){
+			context->working_object = 5;
+		}
+		if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && context->amount_objects > 6){
+			context->working_object = 6;
+		}
+		if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && context->amount_objects > 7){
+			context->working_object = 7;
+		}
+		if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS && context->amount_objects > 8){
+			context->working_object = 8;
+		}
+		if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS && context->amount_objects > 9){
+			context->working_object = 9;
+		}
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		context->objects[context->working_object]->should_rotate = 1;
-	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
-		context->objects[context->working_object]->should_rotate = 0;
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS  || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-		context->objects[context->working_object]->translation_vector.x += 0.05;
-		context->objects[context->working_object]->center_vector.x += 0.05;
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-		context->objects[context->working_object]->translation_vector.x -= 0.05;
-		context->objects[context->working_object]->center_vector.x -= 0.05;
+	//object manipulation
+	{
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+			context->objects[context->working_object]->should_rotate = 1;
+		if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+			context->objects[context->working_object]->should_rotate = 0;
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS  || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+			context->objects[context->working_object]->translation_vector.x += 0.005;
+			context->objects[context->working_object]->center_vector.x += 0.005;
 		}
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-		context->objects[context->working_object]->translation_vector.y += 0.05;
-		context->objects[context->working_object]->center_vector.y += 0.05;
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-		context->objects[context->working_object]->translation_vector.y -= 0.05;
-		context->objects[context->working_object]->center_vector.y -= 0.05;
-	}
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && context->objects[context->working_object]->translation_vector.z < 1.0){
-		context->objects[context->working_object]->translation_vector.z += 0.05;
-		context->objects[context->working_object]->center_vector.z += 0.05;
-		// printf("translation vector : x : %f, y : %f, z : %f \n", context->translation_vector.x, context->translation_vector.y, context->translation_vector.z);
-	}
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && context->objects[context->working_object]->translation_vector.z > -1.0){
-		context->objects[context->working_object]->translation_vector.z -= 0.05;
-		context->objects[context->working_object]->center_vector.z -= 0.05;
-		// printf("translation vector : x : %f, y : %f, z : %f \n", context->translation_vector.x, context->translation_vector.y, context->translation_vector.z);
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+			context->objects[context->working_object]->translation_vector.x -= 0.005;
+			context->objects[context->working_object]->center_vector.x -= 0.005;
+			}
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+			context->objects[context->working_object]->translation_vector.y += 0.005;
+			context->objects[context->working_object]->center_vector.y += 0.005;
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+			context->objects[context->working_object]->translation_vector.y -= 0.005;
+			context->objects[context->working_object]->center_vector.y -= 0.005;
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && context->objects[context->working_object]->translation_vector.z < 2.0){
+			context->objects[context->working_object]->translation_vector.z += 0.005;
+			context->objects[context->working_object]->center_vector.z += 0.005;
+		}
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && context->objects[context->working_object]->translation_vector.z > -2.0){
+			context->objects[context->working_object]->translation_vector.z -= 0.005;
+			context->objects[context->working_object]->center_vector.z -= 0.005;
+		}
 	}
 }
 
@@ -85,6 +89,7 @@ int	init_context(scop_t *context, char **obj, int argc)
 {
 	int i = 1;
 
+	// glfw: initialize and configure
 	if (!glfwInit())
 	{
 		printf("glfwInit failed\n");
@@ -94,12 +99,18 @@ int	init_context(scop_t *context, char **obj, int argc)
 	glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	
+	// glfw window creation
 	context->primary = glfwGetPrimaryMonitor();
 	context->video_mode = glfwGetVideoMode(context->primary);
+	
+	// allocating memory for object filenames
 	if (!(context->obj = (char **)malloc(sizeof(char*) * (argc-1)))){
 		printf("malloc failed\n");
 		exit(-1);
 	}
+
+	// copying object filenames
 	while (i < argc)
 	{
 		if (!(context->obj[i-1] = ft_strdup(obj[i])))
@@ -109,8 +120,10 @@ int	init_context(scop_t *context, char **obj, int argc)
 		}
 		i++;
 	}
+	
 	context->amount_objects = i - 1;
-	// printf("%d\n", context->amount_objects);
+
+	// allocating memory for objects and their data
 	if (!(context->objects = (object_t**)calloc(context->amount_objects, sizeof(object_t*)))){
 		printf("calloc 1 failed\n");
 		exit(-1);
@@ -123,6 +136,9 @@ int	init_context(scop_t *context, char **obj, int argc)
 			printf("calloc 2 failed\n");
 			exit(-1);
 		}
+		// setting default values
+		context->objects[i]->angle_in_radians = 0.0f;
+		context->objects[i]->delta = 0.002f;
 		context->objects[i]->vertices = NULL;
 		context->objects[i]->amount_faces = 0;
 		context->objects[i]->amount_coordinates = 0;
@@ -148,8 +164,10 @@ int main(int argc, char **argv)
 	context = ft_get_context();
 	if (argc >= 2)
 	{
+		// initializing context
 		if (!init_context(context, argv, argc))
 			return (0);
+		// parsing files
 		if (parse_files(context) < 0)
 			return (1);
 		context->window = glfwCreateWindow(WIDTH, HEIGHT, "Scop", NULL, NULL);
@@ -175,7 +193,6 @@ int main(int argc, char **argv)
 		create_buffers(context->objects);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
-		short j = 0;
 
 		while (!glfwWindowShouldClose(context->window))
 		{
@@ -195,13 +212,30 @@ int main(int argc, char **argv)
 				glfwPollEvents();
 				if (context->objects[i]->should_rotate)
 				{
-					context->objects[i]->rotation_vector.y = j/(40*PI);
-					j++;
-					if (j == 790)
-						j = 0;
+					// make rotation matrice
+					context->objects[i]->angle_in_radians += context->objects[i]->delta; // adds the Δangle to angle, in radians
+					if (context->objects[i]->angle_in_radians >= 2 * PI) // if angle is greater than 2π, reset it to 0
+						context->objects[i]->angle_in_radians = 0.0f;
+					// sets the rotation matrice to the angle it will have to rotate by
+					context->objects[i]->rotation_matrice.value[0][0] = cosf(context->objects[i]->angle_in_radians); 
+					context->objects[i]->rotation_matrice.value[0][2] = -sinf(context->objects[i]->angle_in_radians);
+					context->objects[i]->rotation_matrice.value[1][1] = 1.0f;
+					context->objects[i]->rotation_matrice.value[2][0] = sinf(context->objects[i]->angle_in_radians);
+					context->objects[i]->rotation_matrice.value[2][2] = cosf(context->objects[i]->angle_in_radians);
+					context->objects[i]->rotation_matrice.value[3][3] = 1.0f;
 				}
+
+				// add translation vector to rotation matrice
+				context->objects[i]->rotation_matrice.value[3][0] = context->objects[i]->translation_vector.x;
+				context->objects[i]->rotation_matrice.value[3][1] = context->objects[i]->translation_vector.y;
+				context->objects[i]->rotation_matrice.value[3][2] = context->objects[i]->translation_vector.z;
+
+				// send rotation matrice to shader
+				int rotation = glGetUniformLocation(context->shader_program, "rotation");
+				glUniformMatrix4fv(rotation, 1, GL_FALSE,
+					(float *)context->objects[i]->rotation_matrice.value);
 			}
-				usleep(1700);
+			usleep(1700);
 		}
 		for (int i = 0; i < context->amount_objects; i++)
 		{

@@ -2,12 +2,12 @@
 #ifndef SCOP_H
 # define SCOP_H
 
-#if __linux__
-	# include <GL/gl.h>
+// #if __linux__
+	// # include <GL/gl.h>
 	# include <glad/glad.h>
-#elif __MACH__
-	# include <openGL/gl3.h>
-#endif
+// #elif __MACH__
+// 	# include <openGL/gl3.h>
+// #endif
 
 # include <GLFW/glfw3.h>
 # include <unistd.h>
@@ -31,7 +31,7 @@
 #define WIDTH 1280
 #define HEIGHT 1280
 
-#define PI 3.14159265
+#define PI 3.14
 
 typedef struct s_vertices
 {
@@ -43,6 +43,8 @@ typedef struct s_vertices
 
 typedef struct object_s
 {
+	float				angle_in_radians;
+	float 				delta;
 	float				*vertices;
 	int					amount_faces;
 	int					amount_coordinates;
@@ -58,6 +60,7 @@ typedef struct object_s
 	t_vec3f				rotation_vector;
 	t_mat4				color_matrice;
 	t_mat4				lighting_matrice;
+
 }				object_t;
 
 

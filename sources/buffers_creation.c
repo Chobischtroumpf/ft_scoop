@@ -90,7 +90,7 @@ void update_buffers(scop_t *context)
 	{
 		glBindVertexArray(context->objects[i]->VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, context->objects[i]->VBO);
-		rotate_y(context);
+		// rotate_y(context);
 		// printf("apres rotate_y\n");
 		// m4_print(context->objects[i]->rotation_matrice);
 		// m4_print(context->objects[i]->translation_matrice);

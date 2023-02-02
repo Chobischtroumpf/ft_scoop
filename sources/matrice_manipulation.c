@@ -2,21 +2,27 @@
 
 void	rotate_y(scop_t *context)
 {
-	for (int i = 0; i < context->amount_objects; i++)
-	{
-		int transform = glGetUniformLocation(context->shader_program, "transform");
-		int	translation = glGetUniformLocation(context->shader_program, "translation");
-		context->objects[i]->translation_matrice = m4_translate(context->objects[i]->translation_vector.x,
-			context->objects[i]->translation_vector.y, context->objects[i]->translation_vector.z);
-		context->objects[i]->rotation_matrice = m4_rotation_around_center(context->objects[i]->center_vector,
-			0, context->objects[i]->rotation_vector.y, i);
-		glUniformMatrix4fv(transform, 1, GL_FALSE,
-			(float *)context->objects[i]->rotation_matrice.value);
-		glUniformMatrix4fv(translation, 1, GL_FALSE,
-			(float *)context->objects[i]->translation_matrice.value);
-		// m4_print(context->objects[i]->rotation_matrice);
-		// m4_print(context->objects[i]->translation_matrice);
-	}
+	(void)context;
+	// for (int i = 0; i < context->amount_objects; i++)
+	// {
+		// comment what this function does
+		
+		// // we need to get the location of the uniform variables in the shader
+		// int transform = glGetUniformLocation(context->shader_program, "transform"); // transform is the name of the uniform variable in the shader for the rotation matrix
+		// int	translation = glGetUniformLocation(context->shader_program, "translation"); // translation is the name of the uniform variable in the shader for the translation matrix
+
+		// context->objects[i]->translation_matrice = m4_translate(context->objects[i]->translation_vector.x,
+		// 	context->objects[i]->translation_vector.y, context->objects[i]->translation_vector.z);
+		// context->objects[i]->rotation_matrice = m4_rotation_around_center(context->objects[i]->center_vector,
+		// 	context->objects[i]->rotation_vector.x, context->objects[i]->rotation_vector.y, context->objects[i]->rotation_vector.z);
+
+		// glUniformMatrix4fv(transform, 1, GL_FALSE,
+		// 	(float *)context->objects[i]->rotation_matrice.value);
+		// glUniformMatrix4fv(translation, 1, GL_FALSE,
+		// 	(float *)context->objects[i]->translation_matrice.value);
+		// // m4_print(context->objects[i]->rotation_matrice);
+		// // m4_print(context->objects[i]->translation_matrice);
+	// }
 }
 
 int	normalize_vertexes()

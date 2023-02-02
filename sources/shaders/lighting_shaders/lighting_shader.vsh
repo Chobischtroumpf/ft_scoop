@@ -14,6 +14,6 @@ void main()
 	vec3 ambient = ambientStrength * aColor;
 
 	vec3 result= ambient * objectColor
-	gl_Position = transform* translation * vec4(aPos, 0.5);
+	gl_Position = transform* vec4(aPos, 0.5);
 	resultingColor = /*coloration * */ 
 }

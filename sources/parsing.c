@@ -2,18 +2,19 @@
 
 int	add_vertex(char **vertices_info, object_t *object)
 {
-
+	// reallocating memory for vertices and adding the new vertex
 	if (!(object->vertices = realloc(object->vertices, sizeof(float) * (object->amount_coordinates + 6))))
 		return (-1);
 	object->vertices[object->amount_coordinates] = atof(vertices_info[1]);
 	object->vertices[object->amount_coordinates + 1] = atof(vertices_info[2]);
 	object->vertices[object->amount_coordinates + 2] = atof(vertices_info[3]);
 	object->amount_coordinates += 3;
-	int value = rand() % 10;
+
 	int i = 0;
+	float value = rand() % 100;
 	while (i < 3)
 	{
-		object->vertices[i + object->amount_coordinates] = 0.1f * value;
+		object->vertices[i + object->amount_coordinates] = value/99;
 		i++;
 	}
 	object->amount_coordinates += 3;
@@ -55,14 +56,18 @@ int	parse_files(scop_t *context)
 
 	for (int j = 0; j < context->amount_objects; j++)
 	{
-		
+		// checking if the file is a .obj file, if it is not, we return -1
 		if (!ft_strlast(context->obj[j], ".obj"))
 			return(-1);
+
+		// opening the file and checking if it is valid
 		fd = open(context->obj[j], O_RDONLY);
 		if (fd < 0)
 			return (-1);
+		// reading the file line by line
 		while (get_next_line(fd, &line) > 0)
 		{
+			// checking if the line is a vertex or a face
 			if (ft_strncmp(line, "v", 1) && ft_strncmp(line, "f", 1))
 			{
 				free(line);
@@ -70,7 +75,10 @@ int	parse_files(scop_t *context)
 			}
 			else
 			{
+				// splitting the line into an array of strings
 				tab_info = ft_split(line, ' ');
+				// checking if the line is a vertex or a face
+				// and adding it to the object
 				if (!ft_strcmp(tab_info[0], "v"))
 				{
 						if (add_vertex(tab_info, (context->objects[j])) < 0)

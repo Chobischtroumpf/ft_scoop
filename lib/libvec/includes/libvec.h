@@ -55,22 +55,19 @@ t_mat4		m4_init(void);
 t_mat4 	    m4_mult(t_mat4 a, t_mat4 b);
 t_mat4		m4_mult3(t_mat4 rotation, t_mat4 scale, t_mat4 translate);
 
-// mat_projection.c
-t_mat4		m4_perspective(float fov, float aspect, float near, float far);
-t_mat4		m4_look_at(t_vec3f from, t_vec3f to, t_vec3f upv);
-t_mat4		m4_orthogonal(float nearz, float farz, float left, float right, float bottom, float top);
 
-// mat_transform.c
 t_mat4		m4_rotation(float x, float y, float z);
 t_mat4		m4_rotation_around_center(t_vec3f center, float x, float y, float z);
 t_mat4		m4_scale(float x, float y, float z);
 t_mat4		m4_translate(float x, float y, float z);
 
-// mat_vec4f.c
+t_mat4		m4_perspective(float fov, float aspect, float near, float far);
+t_mat4		m4_orthogonal(float nearz, float farz, float left, float right, float bottom, float top);
+t_mat4		m4_look_at(t_vec3f from, t_vec3f to, t_vec3f upv);
+
 t_vec3f		m4_mult_vec3f(t_mat4 mat, t_vec3f vec);
 t_vec4f		m4_mult_vec4f(t_mat4 mat, t_vec4f vec);
 
-// mat_supl.c
 t_mat4		m4_viewmat(float x, float y, float z, t_mat4 translate);
 void		m4_print(t_mat4 mat);
 
