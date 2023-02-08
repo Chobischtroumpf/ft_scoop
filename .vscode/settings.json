@@ -33,6 +33,10 @@
 		"system_error": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"vector": "c"
+		"vector": "c",
+		"xpm_loader.h": "c",
+		"array": "c",
+		"initializer_list": "c",
+		"valarray": "c"
 	}
 }

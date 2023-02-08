@@ -25,6 +25,7 @@
 # endif
 
 int					ft_atoi(const char *str);
+int					ft_atoi_base(char *str, int str_base);
 char				*ft_itoa(int n);
 char				*ft_itoa_base(long nbr, char *base, int b_len);
 char				*ft_utoa_base(unsigned int n, char *base, int b_len);
