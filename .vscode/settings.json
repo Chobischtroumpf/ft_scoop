@@ -37,6 +37,8 @@
 		"xpm_loader.h": "c",
 		"array": "c",
 		"initializer_list": "c",
-		"valarray": "c"
+		"valarray": "c",
+		"ppmimg.h": "c",
+		"ppm_img.h": "c"
 	}
 }

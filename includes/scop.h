@@ -17,7 +17,7 @@
 # include <math.h> 
 # include "libft.h"
 # include "libvec.h"
-
+# include "ppm_img.h"
 
 // #define ROUND_UP 0.01
 
