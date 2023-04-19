@@ -4,27 +4,15 @@
 #include <unistd.h>
 #include "ppm_img.h"
 
-void	rotate_image(t_ppm_img *img)
+void	rotate_image(t_ppm_img **img)
 {
-	t_pixel *new_pixels = (t_pixel *)malloc(img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	ft_bzero(new_pixels, img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	if (new_pixels == NULL)
+	int j,len = strlen((*img)->pixels);
+	int i = 0;
+
+	while (i < j)
 	{
-		printf("Error: Could not allocate memory for image pixels, exiting.\n");
-		return;
+
 	}
-	unsigned int i = 0;
-	int j = 0;
-	while (i < img->width * img->height)
-	{
-		new_pixels[i].r = img->pixels[j].r;
-		new_pixels[i].g = img->pixels[j].g;
-		new_pixels[i].b = img->pixels[j].b;
-		i++;
-		j++;
-	}
-	free(img->pixels);
-	img->pixels = new_pixels;
 }
 
 int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
@@ -61,27 +49,18 @@ int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
 	while (ft_isspace(buffer[i]))
 		i++;
 	
-	img->pixels = (t_pixel *)malloc(img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	ft_bzero(img->pixels, img->width * img->height * sizeof(t_pixel));
+	img->pixels = ft_strdup(buffer);
 	if (img->pixels == NULL)
 	{
 		printf("Error: Could not allocate memory for image pixels, exiting.\n");
 		return 0;
 	}
 
-	unsigned int j = 0;
-	while (j < img->width * img->height)
-	{
-		img->pixels[j].r = buffer[i];
-		img->pixels[j].g = buffer[i + 1];
-		img->pixels[j].b = buffer[i + 2];
-		i += 3;
-		j++;
-	}
+
 	return 1;
 }
 
-t_ppm_img	*load_PPM(char *file)
+t_ppm_img	*load_PPM(const char *file)
 {
 	// open the file
 	FILE * fd_size = fopen(file, "r");
@@ -128,7 +107,7 @@ t_ppm_img	*load_PPM(char *file)
 		printf("Image max color: %d\n", img->max_color);
 		free(buffer);
 	}
-	rotate_image(img);
+	rotate_image(&img);
 	return img;
 }
 

@@ -24,7 +24,7 @@
 #  define BUFFER_SIZE 32
 # endif
 
-int					ft_atoi(const char *str);
+int					ft_atoi(const unsigned char *str);
 int					ft_atoi_base(char *str, int str_base);
 char				*ft_itoa(int n);
 char				*ft_itoa_base(long nbr, char *base, int b_len);

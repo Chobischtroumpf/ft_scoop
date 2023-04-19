@@ -1,5 +1,23 @@
 #include "scop.h"
 
+void drop_callback(GLFWwindow *window, int count, const char **paths)
+{
+	(void)window;
+	(void)count;
+	//check if file dropped is a .obj file
+	if (ft_strstr(paths[0], ".ppm") != NULL || ft_strstr(paths[0], ".PPM") != NULL)
+	{
+		//load the file
+		t_ppm_img *img = load_PPM(paths[0]);
+		//check if the file was loaded
+		if (img == NULL)
+		{
+			printf("Error: Could not load image, exiting.\n");
+			return ;
+		}
+	}
+}
+
 void processInput(GLFWwindow *window, scop_t *context)
 {
 	
@@ -179,6 +197,53 @@ int load_image(scop_t *context)
 	return (0);
 }
 
+void main_loop(scop_t *context)
+{
+	while (!glfwWindowShouldClose(context->window))
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.8, 0.8, 0.8, 1.0f);
+		for (int i = 0; i < context->amount_objects; i++)
+		{
+			glfwPollEvents();
+			processInput(context->window, context);
+			/* Render here */
+			// coloring(context);
+			glUseProgram(context->shader_program);
+			update_buffers(context);
+			glBindVertexArray(context->objects[i]->VAO);
+			glDrawElements(GL_TRIANGLES, context->objects[i]->amount_faces, GL_UNSIGNED_INT, 0);
+			/* Swap front and back buffers */
+			glfwSwapBuffers(context->window);
+			if (context->objects[i]->should_rotate)
+			{
+				// make rotation matrice
+				context->objects[i]->angle_in_radians += context->objects[i]->delta; // adds the Δangle to angle, in radians
+				if (context->objects[i]->angle_in_radians >= 2 * PI) // if angle is greater than 2π, reset it to 0
+					context->objects[i]->angle_in_radians = 0.0f;
+				// sets the rotation matrice to the angle it will have to rotate by
+				context->objects[i]->rotation_matrice.value[0][0] = cosf(context->objects[i]->angle_in_radians); 
+				context->objects[i]->rotation_matrice.value[0][2] = -sinf(context->objects[i]->angle_in_radians);
+				context->objects[i]->rotation_matrice.value[1][1] = 1.0f;
+				context->objects[i]->rotation_matrice.value[2][0] = sinf(context->objects[i]->angle_in_radians);
+				context->objects[i]->rotation_matrice.value[2][2] = cosf(context->objects[i]->angle_in_radians);
+				context->objects[i]->rotation_matrice.value[3][3] = 1.0f;
+			}
+
+			// add translation vector to rotation matrice
+			context->objects[i]->rotation_matrice.value[3][0] = context->objects[i]->translation_vector.x;
+			context->objects[i]->rotation_matrice.value[3][1] = context->objects[i]->translation_vector.y;
+			context->objects[i]->rotation_matrice.value[3][2] = context->objects[i]->translation_vector.z;
+
+			// send rotation matrice to shader
+			int rotation = glGetUniformLocation(context->shader_program, "rotation");
+			glUniformMatrix4fv(rotation, 1, GL_FALSE,
+				(float *)context->objects[i]->rotation_matrice.value);
+		}
+		usleep(1700);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	scop_t *context;
@@ -206,9 +271,8 @@ int main(int argc, char **argv)
 		}
 		#endif
 		set_window_framebuffer(context->window, context->video_mode->width, context->video_mode->height);
-		// printf("");
-		// glGet(GL_VERSION);
 		glfwSetFramebufferSizeCallback(context->window, set_window_framebuffer);
+		glfwSetDropCallback(context->window, drop_callback);
 		if (compile_shader_progs(context) < 0){
 			printf("compile_shader_progs failed\n");
 			exit(-1);
@@ -217,49 +281,8 @@ int main(int argc, char **argv)
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
-		while (!glfwWindowShouldClose(context->window))
-		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glClearColor(0.8, 0.8, 0.8, 1.0f);
-			for (int i = 0; i < context->amount_objects; i++)
-			{
-				processInput(context->window, context);
-				/* Render here */
-				// coloring(context);
-				glUseProgram(context->shader_program);
-				update_buffers(context);
-				glBindVertexArray(context->objects[i]->VAO);
-				glDrawElements(GL_TRIANGLES, context->objects[i]->amount_faces, GL_UNSIGNED_INT, 0);
-				/* Swap front and back buffers */
-				glfwSwapBuffers(context->window);
-				glfwPollEvents();
-				if (context->objects[i]->should_rotate)
-				{
-					// make rotation matrice
-					context->objects[i]->angle_in_radians += context->objects[i]->delta; // adds the Δangle to angle, in radians
-					if (context->objects[i]->angle_in_radians >= 2 * PI) // if angle is greater than 2π, reset it to 0
-						context->objects[i]->angle_in_radians = 0.0f;
-					// sets the rotation matrice to the angle it will have to rotate by
-					context->objects[i]->rotation_matrice.value[0][0] = cosf(context->objects[i]->angle_in_radians); 
-					context->objects[i]->rotation_matrice.value[0][2] = -sinf(context->objects[i]->angle_in_radians);
-					context->objects[i]->rotation_matrice.value[1][1] = 1.0f;
-					context->objects[i]->rotation_matrice.value[2][0] = sinf(context->objects[i]->angle_in_radians);
-					context->objects[i]->rotation_matrice.value[2][2] = cosf(context->objects[i]->angle_in_radians);
-					context->objects[i]->rotation_matrice.value[3][3] = 1.0f;
-				}
-
-				// add translation vector to rotation matrice
-				context->objects[i]->rotation_matrice.value[3][0] = context->objects[i]->translation_vector.x;
-				context->objects[i]->rotation_matrice.value[3][1] = context->objects[i]->translation_vector.y;
-				context->objects[i]->rotation_matrice.value[3][2] = context->objects[i]->translation_vector.z;
-
-				// send rotation matrice to shader
-				int rotation = glGetUniformLocation(context->shader_program, "rotation");
-				glUniformMatrix4fv(rotation, 1, GL_FALSE,
-					(float *)context->objects[i]->rotation_matrice.value);
-			}
-			usleep(1700);
-		}
+		main_loop(context);
+		
 		for (int i = 0; i < context->amount_objects; i++)
 		{
 			glDeleteVertexArrays(1, &(context->objects[i]->VAO));

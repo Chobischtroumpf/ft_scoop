@@ -14,7 +14,7 @@
 #define MIN_INT -2147483648
 #define MAX_INT 2147483647
 
-static int	checker(const char **str)
+static int	checker(const unsigned char **str)
 {
 	int is_negative;
 
@@ -31,7 +31,7 @@ static int	checker(const char **str)
 	return (is_negative);
 }
 
-int			ft_atoi(const char *str)
+int			ft_atoi(const unsigned char *str)
 {
 	long			nb;
 	int				i;

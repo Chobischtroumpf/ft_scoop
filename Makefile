@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#  Makefile                                             :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+         #
+#  By: adorigo <alessandro.matteo.a.dorigo@ulb.be>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2021/09/08 14:15:00 by adorigo          ###   ########.fr        #
+#  Created: 2020/04/10 13:37:24 by lorenuar            #+#    #+#              #
+#  Updated: 2021/09/08 14:15:00 by adorigo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,11 +50,6 @@ ifeq ($(UNAME_S),Darwin)
 	LDFLAGS += -L lib/libft -L lib/libvec -L ~/.brew/lib/ -lvec -lft -lglfw -framework OpenGL 
 endif
 
-###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
-# **************************************************************************** #
-# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #
-# **************************************************************************** #
-
 SRCS = \
 	./sources/main.c \
 	./sources/utils.c \
@@ -63,12 +58,11 @@ SRCS = \
 	./sources/shaders/get_shaders.c\
 	./sources/matrice_manipulation.c\
 	./sources/glad.c\
-	./sources/ppm_img.c\
+	./sources/ppm_img.c
 
 HEADERS = \
 	./includes/scop.h\
-
-###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲
+	./includes/ppm_img.h\
 
 # String manipulation magic
 SRC		:= $(notdir $(SRCS))
