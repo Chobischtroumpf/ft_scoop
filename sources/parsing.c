@@ -3,7 +3,7 @@
 int	add_vertex(char **vertices_info, object_t *object)
 {
 	// reallocating memory for vertices and adding the new vertex
-	if (!(object->vertices = realloc(object->vertices, sizeof(float) * (object->amount_coordinates + 6))))
+	if (!(object->vertices = realloc(object->vertices, sizeof(float) * (object->amount_coordinates + 9))))
 		return (-1);
 	object->vertices[object->amount_coordinates] = atof(vertices_info[1]);
 	object->vertices[object->amount_coordinates + 1] = atof(vertices_info[2]);
@@ -11,13 +11,18 @@ int	add_vertex(char **vertices_info, object_t *object)
 	object->amount_coordinates += 3;
 
 	int i = 0;
-	float value = rand() % 100;
-	while (i < 3)
+	// float value = rand() % 100;
+	// while (i < 3)
+	// {
+	// 	object->vertices[i + object->amount_coordinates] = value/99;
+	// 	i++;
+	// }
+	// object->amount_coordinates += 3;
+	while (i < 2)
 	{
-		object->vertices[i + object->amount_coordinates] = value/99;
-		i++;
+		
 	}
-	object->amount_coordinates += 3;
+	// add texture
 	return (0);
 }
 

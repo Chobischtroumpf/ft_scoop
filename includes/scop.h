@@ -2,12 +2,12 @@
 #ifndef SCOP_H
 # define SCOP_H
 
-// #if __linux__
+#if __linux__
 	// # include <GL/gl.h>
 	# include <glad/glad.h>
-// #elif __MACH__
-// 	# include <openGL/gl3.h>
-// #endif
+#elif __MACH__
+	# include <openGL/gl3.h>
+#endif
 
 # include <GLFW/glfw3.h>
 # include <unistd.h>
@@ -53,6 +53,7 @@ typedef struct object_s
 	GLuint				EBO;
 	GLuint				VAO;
 	GLuint				*faces;
+	GLuint				texture;
 	t_mat4				translation_matrice;
 	t_vec3f				translation_vector;
 	t_vec3f				center_vector;
@@ -67,6 +68,7 @@ typedef struct object_s
 typedef struct scop_s
 {
 	char				**obj;
+	char				*tex_path;
 	int					amount_objects;
 	int					working_object;
 	int					shader_program;
@@ -75,6 +77,7 @@ typedef struct scop_s
 	const GLFWvidmode	*video_mode;
 	object_t			**objects;
 	object_t			*lighting;
+	t_ppm_img			*texture;
 
 }	scop_t;
 

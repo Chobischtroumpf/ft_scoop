@@ -51,14 +51,14 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 SRCS = \
-	./sources/main.c					\
-	./sources/utils.c					\
-	./sources/parsing.c					\
-	./sources/buffers_creation.c		\
-	./sources/shaders/get_shaders.c		\
-	./sources/matrice_manipulation.c	\
-	./sources/glad.c					\
-	./sources/image_loading/ppm_img.c
+	./sources/main.c \
+	./sources/utils.c \
+	./sources/parsing.c \
+	./sources/buffers_creation.c\
+	./sources/shaders/get_shaders.c\
+	./sources/matrice_manipulation.c\
+	./sources/glad.c\
+	./sources/ppm_img.c
 
 HEADERS = \
 	./includes/scop.h\

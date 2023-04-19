@@ -4,27 +4,17 @@
 #include <unistd.h>
 #include "ppm_img.h"
 
-t_pixel	*rotate_image(t_ppm_img *img)
+void	rotate_image(t_ppm_img **img)
 {
-	t_pixel *new_pixels = (t_pixel *)malloc(img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	ft_bzero(new_pixels, img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	if (new_pixels == NULL)
+	int j = strlen((*img)->pixels) - 1;
+	int i = 0;
+
+	while (i < j)
 	{
-		printf("Error: Could not allocate memory for image pixels, exiting.\n");
-		return (NULL);
-	}
-	unsigned int i = 0;
-	unsigned long j = img->width * img->height;
-	while (i < img->width * img->height)
-	{
-		new_pixels[i].r = img->pixels[j].r;
-		new_pixels[i].g = img->pixels[j].g;
-		new_pixels[i].b = img->pixels[j].b;
+		(*img)->pixels[i] = (*img)->pixels[j];
 		i++;
 		j--;
 	}
-	free(img->pixels);
-	return new_pixels;
 }
 
 int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
@@ -42,42 +32,32 @@ int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
 	int i = 3;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->width = ft_atoi(&buffer[i]);
+	img->width = (unsigned int)ft_atoi((const char*)&buffer[i]);
 	// read the height
 	while (ft_isdigit(buffer[i]))
 		i++;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->height = ft_atoi(&buffer[i]);
+	img->height = ft_atoi((const char*)&buffer[i]);
 	// read the max color
 	while (ft_isdigit(buffer[i]))
 		i++;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->max_color = ft_atoi(&buffer[i]);
+	img->max_color = ft_atoi((const char*)&buffer[i]);
 	// read the pixels
 	while (ft_isdigit(buffer[i]))
 		i++;
 	while (ft_isspace(buffer[i]))
 		i++;
 	
-	img->pixels = (t_pixel *)malloc(img->width * img->height * sizeof(t_pixel) + 1 * sizeof(t_pixel));
-	ft_bzero(img->pixels, img->width * img->height * sizeof(t_pixel));
+	img->pixels = ft_strdup(buffer);
 	if (img->pixels == NULL)
 	{
 		printf("Error: Could not allocate memory for image pixels, exiting.\n");
 		return 0;
 	}
 
-	unsigned long j = 0;
-	while (j < img->width * img->height)
-	{
-		img->pixels[j].r = buffer[i];
-		img->pixels[j].g = buffer[i + 1];
-		img->pixels[j].b = buffer[i + 2];
-		i += 3;
-		j++;
-	}
 	return 1;
 }
 
@@ -128,7 +108,7 @@ t_ppm_img	*load_PPM(const char *file)
 		printf("Image max color: %d\n", img->max_color);
 		free(buffer);
 	}
-	img->pixels = rotate_image(img);
+	rotate_image(&img);
 	return img;
 }
 
