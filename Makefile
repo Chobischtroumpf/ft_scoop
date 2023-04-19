@@ -62,7 +62,8 @@ SRCS = \
 	./sources/buffers_creation.c\
 	./sources/shaders/get_shaders.c\
 	./sources/matrice_manipulation.c\
-	./sources/glad.c
+	./sources/glad.c\
+	./sources/ppm_img.c\
 
 HEADERS = \
 	./includes/scop.h\

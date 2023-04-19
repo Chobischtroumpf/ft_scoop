@@ -4,7 +4,7 @@
 # include <stdio.h>
 # include "libft.h"
 
-typedef struct		s_bmp_pixel
+typedef struct		s_ppm_pixel
 {
 	unsigned char	r;
 	unsigned char	g;

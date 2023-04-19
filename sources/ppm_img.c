@@ -13,7 +13,7 @@ void	rotate_image(t_ppm_img *img)
 		printf("Error: Could not allocate memory for image pixels, exiting.\n");
 		return;
 	}
-	int i = 0;
+	unsigned int i = 0;
 	int j = 0;
 	while (i < img->width * img->height)
 	{
@@ -42,19 +42,19 @@ int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
 	int i = 3;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->width = ft_atoi(&buffer[i]);
+	img->width = (unsigned int)ft_atoi((const char*)&buffer[i]);
 	// read the height
 	while (ft_isdigit(buffer[i]))
 		i++;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->height = ft_atoi(&buffer[i]);
+	img->height = ft_atoi((const char*)&buffer[i]);
 	// read the max color
 	while (ft_isdigit(buffer[i]))
 		i++;
 	while (ft_isspace(buffer[i]))
 		i++;
-	img->max_color = ft_atoi(&buffer[i]);
+	img->max_color = ft_atoi((const char*)&buffer[i]);
 	// read the pixels
 	while (ft_isdigit(buffer[i]))
 		i++;
@@ -69,7 +69,7 @@ int read_PPM_image(t_ppm_img *img, unsigned char *buffer)
 		return 0;
 	}
 
-	int j = 0;
+	unsigned int j = 0;
 	while (j < img->width * img->height)
 	{
 		img->pixels[j].r = buffer[i];
@@ -128,7 +128,7 @@ t_ppm_img	*load_PPM(char *file)
 		printf("Image max color: %d\n", img->max_color);
 		free(buffer);
 	}
-	invert_image(img);
+	rotate_image(img);
 	return img;
 }
 

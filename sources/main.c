@@ -87,7 +87,7 @@ void set_window_framebuffer(GLFWwindow *window, int width, int height)
 
 int	init_context(scop_t *context, char **obj, int argc)
 {
-	int i = 1;
+	int i = 2;
 
 	// glfw: initialize and configure
 	if (!glfwInit())
@@ -110,6 +110,8 @@ int	init_context(scop_t *context, char **obj, int argc)
 		exit(-1);
 	}
 
+	// getting texture path
+	context->tex_path = ft_strdup(obj[1]);
 	// copying object filenames
 	while (i < argc)
 	{
@@ -157,12 +159,32 @@ int	init_context(scop_t *context, char **obj, int argc)
 	return (1); 
 }
 
+int load_image(scop_t *context)
+{
+	// load image
+	context->texture = load_PPM(context->tex_path);
+	if (!context->texture)
+	{
+		printf("load_PPM failed\n");
+		return (0);
+	}
+	// generate texture
+	for (int i = 0; i < context->amount_objects; i++)
+	{
+		glGenTextures(1, &context->objects[i]->texture);
+		glBindTexture(GL_TEXTURE_2D, context->objects[i]->texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, context->texture->width, context->texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, (float*)context->texture->pixels);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	return (0);
+}
+
 int main(int argc, char **argv)
 {
 	scop_t *context;
 
 	context = ft_get_context();
-	if (argc >= 2)
+	if (argc >= 3)
 	{
 		// initializing context
 		if (!init_context(context, argv, argc))
@@ -175,6 +197,7 @@ int main(int argc, char **argv)
 			glfwTerminate();
 			return (2);
 		}
+		load_image(context);
 		glfwMakeContextCurrent(context->window);
 		#ifdef __linux__
 		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
@@ -250,5 +273,5 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	else
-		write(1, "wrong amount of arguments to the program:\n\tusage: ./scop [*.obj]\n", 65);
+		write(1, "wrong amount of arguments to the program:\n\tusage: ./scop [texture.ppm] [*.obj]\n", 79);
 }
