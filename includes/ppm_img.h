@@ -22,7 +22,7 @@ typedef struct		s_ppm_img
 	t_pixel				*pixels;
 }						t_ppm_img;
 
-t_ppm_img				*load_PPM(char *file);
+t_ppm_img				*load_PPM(const char *file);
 void					unload_PPM(t_ppm_img *img);
 
 #endif

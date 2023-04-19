@@ -39,6 +39,8 @@
 		"initializer_list": "c",
 		"valarray": "c",
 		"ppmimg.h": "c",
-		"ppm_img.h": "c"
+		"ppm_img.h": "c",
+		"string.h": "c",
+		"sstream": "c"
 	}
 }
